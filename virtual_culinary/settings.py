@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'administration.middleware.OnlineDurationMiddleware',
 ]
 
 ROOT_URLCONF = 'virtual_culinary.urls'

@@ -1,6 +1,10 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.register),
+    # Path untuk nampilin halaman form register
+    path('', views.register, name='register'),
+    
+    # Path untuk proses simpan data (target action di form HTML)
+    path('submit/', views.submit, name='submit'),
 ]

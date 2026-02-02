@@ -48,73 +48,61 @@
             </div>
 
             <!-- Manual Registration Form -->
-            <form id="registerForm" class="register-form">
-                <div class="form-row">
-                    <div class="form-group half">
-                        <label for="firstName">
-                            <i class="fas fa-user"></i> Nama Depan
-                        </label>
-                        <input type="text" id="firstName" placeholder="Masukkan nama depan" required>
-                    </div>
-                    <div class="form-group half">
-                        <label for="lastName">
-                            <i class="fas fa-user"></i> Nama Belakang
-                        </label>
-                        <input type="text" id="lastName" placeholder="Masukkan nama belakang" required>
-                    </div>
-                </div>
+<form id="registerForm" class="register-form" action="{% url 'submit' %}" method="POST">
+    {% csrf_token %} <div class="form-row">
+        <div class="form-group half">
+            <label for="firstName"><i class="fas fa-user"></i> Nama Depan</label>
+            <input type="text" id="firstName" name="namaDepan" placeholder="Masukkan nama depan" required>
+        </div>
+        <div class="form-group half">
+            <label for="lastName"><i class="fas fa-user"></i> Nama Belakang</label>
+            <input type="text" id="lastName" name="namaBelakang" placeholder="Masukkan nama belakang" required>
+        </div>
+    </div>
 
-                <div class="form-group">
-                    <label for="userEmail">
-                        <i class="fas fa-envelope"></i> Email
-                    </label>
-                    <input type="email" id="userEmail" placeholder="Masukkan email" required>
-                </div>
+    <div class="form-group">
+        <label for="userEmail"><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" id="userEmail" name="email" placeholder="Masukkan email" required>
+    </div>
 
-                <div class="form-group">
-                    <label for="userPhone">
-                        <i class="fas fa-phone"></i> Nomor Telepon
-                    </label>
-                    <input type="tel" id="userPhone" placeholder="Masukkan nomor telepon" required>
-                </div>
+    <div class="form-group">
+        <label for="userPhone"><i class="fas fa-phone"></i> Nomor Telepon</label>
+        <input type="tel" id="userPhone" name="telp" placeholder="Masukkan nomor telepon" required>
+    </div>
 
-                <div class="form-row">
-                    <div class="form-group half">
-                        <label for="userPassword">
-                            <i class="fas fa-lock"></i> Password
-                        </label>
-                        <input type="password" id="userPassword" placeholder="Masukkan password" required>
-                        <div class="password-strength">
-                            <div class="strength-bar">
-                                <div class="strength-bar-inner"></div>
-                            </div>
-                            <div class="strength-text">Kekuatan: <span id="strengthText">Lemah</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group half">
-                        <label for="confirmPassword">
-                            <i class="fas fa-lock"></i> Konfirmasi Password
-                        </label>
-                        <input type="password" id="confirmPassword" placeholder="Konfirmasi password" required>
-                        <div class="password-match">
-                            <i class="fas fa-check-circle"></i>
-                            <span id="matchText">Password cocok</span>
-                        </div>
-                    </div>
-                </div>
+    <div class="form-row">
+        <div class="form-group half">
+            <label for="userPassword"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="userPassword" name="password" placeholder="Masukkan password" required>
+            <div class="password-strength">
+                <div class="strength-bar"><div class="strength-bar-inner"></div></div>
+                <div class="strength-text">Kekuatan: <span id="strengthText">Lemah</span></div>
+            </div>
+        </div>
+        
+        <div class="form-group half">
+            <label for="confirmPassword"><i class="fas fa-lock"></i> Konfirmasi Password</label>
+            <input type="password" id="confirmPassword" name="password_confirm" placeholder="Konfirmasi password" required>
+            <div class="password-match">
+                <i class="fas fa-check-circle"></i>
+                <span id="matchText">Password cocok</span>
+            </div>
+        </div>
+    </div>
 
-                <div class="form-group terms">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="terms" required>
-                        <span>Saya setuju dengan <a href="#">Syarat Layanan</a> dan <a href="#">Kebijakan Privasi</a></span>
-                    </label>
-                </div>
+    <input type="hidden" name="role" value="murid-basic">
 
-                <button type="submit" class="register-btn">
-                    <i class="fas fa-user-plus"></i> Daftar Sekarang
-                </button>
-            </form>
+    <div class="form-group terms">
+        <label class="checkbox-label">
+            <input type="checkbox" id="terms" required>
+            <span>Saya setuju dengan <a href="#">Syarat Layanan</a></span>
+        </label>
+    </div>
+
+    <button type="submit" class="register-btn">
+        <i class="fas fa-user-plus"></i> Daftar Sekarang
+    </button>
+</form>
 
             <!-- Divider -->
             <div class="divider">
