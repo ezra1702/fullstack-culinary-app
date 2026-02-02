@@ -1,0 +1,431 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="icon" type="image/png" href="logo.png"> -->
+    <link rel="stylesheet" href="{% static 'css/administration/admin_dashboard.css' %}">
+</head>
+<body>
+
+    <div class="admin-container">
+        <!-- Sidebar Admin -->
+      {% include 'snippets/administration/sidebar.html' %}
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Header Bar -->
+            {% include 'snippets/administration/header.html' %}
+
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 12.5%
+                            </span>
+                        </div>
+                        <div class="stat-value">{{ total_users }}</div>
+                        <div class="stat-label">Total User</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 8.3%
+                            </span>
+                        </div>
+                        <div class="stat-value">{{ total_students }}</div>
+                        <div class="stat-label">Total Murid</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 5.2%
+                            </span>
+                        </div>
+                        <div class="stat-value">{{ total_chefs }}</div>
+                        <div class="stat-label">Total Chef</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 15.7%
+                            </span>
+                        </div>
+                        <div class="stat-value">{{ total_premium }}</div>
+                        <div class="stat-label">Premium Users</div>
+                    </div>
+                </div>
+
+                <!-- User Management Table -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <h2 class="table-title">
+                            <i class="fas fa-users"></i> User Terbaru
+                        </h2>
+                        
+                        <div class="table-controls">
+                            <div class="filter-group">
+                                <button class="filter-btn active" data-filter="all">Semua</button>
+                                <button class="filter-btn" data-filter="premium">Premium</button>
+                                <button class="filter-btn" data-filter="chef">Chef</button>
+                                <button class="filter-btn" data-filter="admin">Admin</button>
+                            </div>
+                            
+                            <button class="btn btn-primary" onclick="openModal('addUserModal')">
+                                <i class="fas fa-plus"></i> Tambah User
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="admin-table" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th data-sort="name" class="sort-asc">
+                                        Nama
+                                        <span class="sort-indicator">
+                                            <i class="fas fa-caret-up"></i>
+                                            <i class="fas fa-caret-down"></i>
+                                        </span>
+                                    </th>
+                                    <th data-sort="email">
+                                        Email
+                                        <span class="sort-indicator">
+                                            <i class="fas fa-caret-up"></i>
+                                            <i class="fas fa-caret-down"></i>
+                                        </span>
+                                    </th>
+                                    <th data-sort="role">
+                                        Role
+                                        <span class="sort-indicator">
+                                            <i class="fas fa-caret-up"></i>
+                                            <i class="fas fa-caret-down"></i>
+                                        </span>
+                                    </th>
+                                    <th data-sort="status">
+                                        Status
+                                        <span class="sort-indicator">
+                                            <i class="fas fa-caret-up"></i>
+                                            <i class="fas fa-caret-down"></i>
+                                        </span>
+                                    </th>
+                                    <th data-sort="joined">
+                                        Bergabung
+                                        <span class="sort-indicator">
+                                            <i class="fas fa-caret-up"></i>
+                                            <i class="fas fa-caret-down"></i>
+                                        </span>
+                                    </th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Contoh Data -->
+                                 {% for user in users %}
+                                <tr data-role="{{ user.role }}">
+                                    <td>
+                                        <div class="user-cell">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar" class="user-avatar">
+                                            <div class="user-info">
+                                                <span class="user-name">{{ user.namaDepan }} {{ user.namaBelakang }}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ user.email }}</td>
+                                    <td><span class="role-badge role-premium">{{ user.role }}</span></td>
+                                    <td>
+                                        <div class="status-indicator">
+                                           <span class="status-dot {% if user.status == 'online' %}status-active{% elif user.status == 'offline' %}status-inactive{% endif %}"></span>
+                                            <span>{{ user.status }}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{ user.dataJoin|date:"d M Y"  }}</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn btn-view" title="View">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn btn-edit" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn btn-delete" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                             {% empty %}
+                                <tr>
+                                     <td colspan="6" style="text-align: center;">Belum ada data user di database MySQL.</td>
+                                </tr>
+                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            <div class="rows-per-page">
+                                <span>Rows per page:</span>
+                                <select class="rows-select" id="rowsPerPage">
+                                    <option value="10">10</option>
+                                    <option value="20" selected>20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <span>Showing 1-4 of 1,245 users</span>
+                        </div>
+                        
+                        <div class="pagination">
+                            <button class="page-btn disabled">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                            <span class="page-btn disabled">...</span>
+                            <button class="page-btn">25</button>
+                            <button class="page-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity & System Status -->
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3 class="activity-title">Kelas Baru Ditambahkan</h3>
+                            <span class="activity-time">2 jam lalu</span>
+                        </div>
+                        <p class="activity-desc">"Masakan Jepang Dasar" oleh Chef Kenji telah ditambahkan ke sistem dengan 15 modul pembelajaran.</p>
+                        <div class="activity-user">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Admin Budi</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3 class="activity-title">Pembaruan Sistem</h3>
+                            <span class="activity-time">1 hari lalu</span>
+                        </div>
+                        <p class="activity-desc">Sistem telah diperbarui ke versi 2.5.1 dengan perbaikan bug dan peningkatan performa.</p>
+                        <div class="activity-user">
+                            <i class="fas fa-server"></i>
+                            <span>System Auto</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3 class="activity-title">Laporan Bulanan</h3>
+                            <span class="activity-time">3 hari lalu</span>
+                        </div>
+                        <p class="activity-desc">Pertumbuhan user meningkat 25% bulan ini dengan 245 user baru dan 48 chef terdaftar.</p>
+                        <div class="activity-user">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics System</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="system-status">
+                    <h2 class="table-title">
+                        <i class="fas fa-server"></i> Status Sistem
+                    </h2>
+                    
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-name">Server Load</div>
+                            <div class="status-bar">
+                                <div class="status-fill" style="width: 65%; background: var(--primary-color);"></div>
+                            </div>
+                            <div class="status-value">65%</div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-name">Database Usage</div>
+                            <div class="status-bar">
+                                <div class="status-fill" style="width: 78%; background: var(--primary-light);"></div>
+                            </div>
+                            <div class="status-value">78%</div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-name">Storage Space</div>
+                            <div class="status-bar">
+                                <div class="status-fill" style="width: 45%; background: #7fcdbb;"></div>
+                            </div>
+                            <div class="status-value">45%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal untuk Tambah User -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Tambah User Baru</h3>
+                <button class="close-modal" onclick="closeModal('addUserModal')">&times;</button>
+            </div>
+            
+            <form id="addUserForm" class="form-container" onsubmit="submitUserForm(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userName" class="form-label">
+                            <i class="fas fa-user"></i> Nama Depan
+                        </label>
+                        <input type="text" id="userName" class="form-control" placeholder="Masukkan nama user" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userName" class="form-label">
+                            <i class="fas fa-user"></i> Nama Belakang
+                        </label>
+                        <input type="text" id="userName" class="form-control" placeholder="Masukkan nama user" required>
+                    </div>
+      
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userRole" class="form-label">
+                            <i class="fas fa-user-tag"></i> Role
+                        </label>
+                        <select id="userRole" class="form-control" required onchange="toggleMemberType()">
+                            <option value="">Pilih Role</option>
+                            <option value="murid">Murid</option>
+                            <option value="chef">Chef</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail" class="form-label">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input type="email" id="userEmail" class="form-control" placeholder="Masukkan email" required>
+                    </div>
+                    <div class="form-group" id="memberTypeGroup" style="display: none;">
+                        <label for="memberType" class="form-label">
+                            <i class="fas fa-crown"></i> Tipe Member
+                        </label>
+                        <select id="memberType" class="form-control">
+                            <option value="basic">Basic</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" id="memberTypeGroup" style="display: none;">
+                        <label for="memberType" class="form-label">
+                            <i class="fas fa-crown"></i> Tipe Member
+                        </label>
+                        <select id="memberType" class="form-control">
+                            <option value="basic">Basic</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userPassword" class="form-label">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <input type="password" id="userPassword" class="form-control" placeholder="Masukkan password" required>
+                        <div class="form-text">Minimal 8 karakter</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">
+                            <i class="fas fa-lock"></i> Konfirmasi Password
+                        </label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Konfirmasi password" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userPhone" class="form-label">
+                            <i class="fas fa-phone"></i> Nomor Telepon
+                        </label>
+                        <input type="tel" id="userPhone" class="form-control" placeholder="Masukkan nomor telepon">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userStatus" class="form-label">
+                            <i class="fas fa-check-circle"></i> Status
+                        </label>
+                        <select id="userStatus" class="form-control">
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Nonaktif</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userBio" class="form-label">
+                        <i class="fas fa-info-circle"></i> Bio (Opsional)
+                    </label>
+                    <textarea id="userBio" class="form-control" rows="3" placeholder="Deskripsi singkat tentang user"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('addUserModal')">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Simpan User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/administration/admin_dashboard.js' %}"></script>
+    <script>
+        time = new Date().getHours();
+        if (time >= 5 && time < 12) {
+            // idnya itu greetings 
+            document.getElementById("greetings").innerText = "Pagi";
+        } else if (time >= 12 && time < 17) {
+             document.getElementById("greetings").innerText = "Siang";
+        } else if (time >= 17 && time < 22) {
+            document.getElementById("greetings").innerText = "Sore";
+        } else {
+            document.getElementById("greetings").innerText = "Malam";
+        }
+    </script>
+</body>
+</html>

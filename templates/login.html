@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Virtual Culinary Experience</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Login Success Animation -->
+    <div class="login-feedback" id="success-animation">
+        <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <div class="feedback-message">Login Successful! Redirecting...</div>
+    </div>
+    
+    <!-- Login Failed Animation -->
+    <div class="login-feedback" id="failed-animation">
+        <svg class="failure-cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="failure-cross-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="failure-cross-line left" fill="none" d="M16 16 36 36" stroke="#ff4444" stroke-width="3"/>
+            <path class="failure-cross-line right" fill="none" d="M16 36 36 16" stroke="#ff4444" stroke-width="3"/>
+        </svg>
+        <div class="feedback-message">Login Failed! Please try again.</div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fas fa-utensils"></i>
+                <h2>Virtual Culinary</h2>
+            </div>
+
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="email">Username</label>
+                    <input type="name" id="email" placeholder="Masukan nama username anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Masukan nama password anda" required>
+                </div>
+
+                <div class="login-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#">Lupa password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+
+                <div class="social-login">
+                    <p>Or login dengan</p>
+                    <div class="social-icons">
+                        <div class="social-icon google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="social-icon facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="social-icon apple">
+                            <i class="fab fa-apple"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="register-link">
+                    Tidak punya akun? <a href="/signup">Sign up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Virtual Culinary. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{% static 'login/js/login.js' %}"></script>
+</html>

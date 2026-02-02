@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas - Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="{% static 'css/users/kelas.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        {% include "snippets/users/sidebar.html" %}
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="classes-container">
+                <div class="classes-header">
+                    <h1>
+                        Kelas Saya 
+                        <span class="premium-badge">
+                            <i class="fas fa-crown"></i> PREMIUM
+                        </span>
+                    </h1>
+                    <button class="btn btn-premium">
+                        <i class="fas fa-plus"></i> Ikut Kelas Premium
+                    </button>
+                </div>
+                
+                <!-- Premium Exclusive Section -->
+                <div class="premium-section">
+                    <div class="premium-section-header">
+                        <h2 class="premium-section-title">
+                            <i class="fas fa-crown"></i> Kelas Premium Eksklusif
+                        </h2>
+                        <div class="premium-badge">AKSES PENUH</div>
+                    </div>
+                    <p>Anda memiliki akses penuh ke semua kelas premium sebagai member VIP kami.</p>
+                </div>
+                
+                <div class="classes-tabs">
+                    <div class="tab active">Semua</div>
+                    <div class="tab">Berjalan</div>
+                    <div class="tab">Selesai</div>
+                    <div class="tab">Favorit</div>
+                    <div class="tab">Premium</div>
+                </div>
+                
+                <div class="classes-grid">
+                    <!-- Class 1 - Premium -->
+                    <div class="class-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <div class="class-badge">Terbaru</div>
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Masakan Indonesia" class="class-img">
+                        <div class="class-content">
+                            <div class="class-category">Masakan Tradisional</div>
+                            <h3 class="class-title">
+                                Masakan Tradisional Indonesia
+                                <i class="fas fa-crown" style="color: var(--premium-gold);"></i>
+                            </h3>
+                            <div class="class-instructor">
+                                <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Instructor" class="instructor-avatar">
+                                <span>Chef Ani</span>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill premium-progress" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions">
+                                <button class="btn-class btn-premium-action">Lanjutkan</button>
+                                <button class="btn-class btn-detail">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Class 2 - Premium -->
+                    <div class="class-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Masakan Vegetarian" class="class-img">
+                        <div class="class-content">
+                            <div class="class-category">Gaya Hidup</div>
+                            <h3 class="class-title">
+                                Masakan Vegetarian Sehat
+                                <i class="fas fa-crown" style="color: var(--premium-gold);"></i>
+                            </h3>
+                            <div class="class-instructor">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Instructor" class="instructor-avatar">
+                                <span>Chef Rama</span>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>42%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill premium-progress" style="width: 42%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions">
+                                <button class="btn-class btn-premium-action">Lanjutkan</button>
+                                <button class="btn-class btn-detail">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Class 3 (Completed) - Premium -->
+                    <div class="class-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <div class="class-badge">Selesai</div>
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1071&q=80" alt="Dessert" class="class-img">
+                        <div class="class-content">
+                            <div class="class-category">Dessert</div>
+                            <h3 class="class-title">
+                                Teknik Dasar Membuat Dessert
+                                <i class="fas fa-crown" style="color: var(--premium-gold);"></i>
+                            </h3>
+                            <div class="class-instructor">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Instructor" class="instructor-avatar">
+                                <span>Chef Dini</span>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill premium-progress" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions">
+                                <button class="btn-class btn-premium-action">Lihat Sertifikat</button>
+                                <button class="btn-class btn-detail">Ulangi Kelas</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Class 4 - Premium -->
+                    <div class="class-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Masakan Barat" class="class-img">
+                        <div class="class-content">
+                            <div class="class-category">Masakan Internasional</div>
+                            <h3 class="class-title">
+                                Masakan Italia Autentik
+                                <i class="fas fa-crown" style="color: var(--premium-gold);"></i>
+                            </h3>
+                            <div class="class-instructor">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Instructor" class="instructor-avatar">
+                                <span>Chef Marco</span>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>15%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill premium-progress" style="width: 15%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions">
+                                <button class="btn-class btn-premium-action">Mulai</button>
+                                <button class="btn-class btn-detail">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Class 5 - Premium Exclusive -->
+                    <div class="class-card">
+                        <div class="premium-tag">VIP EXCLUSIVE</div>
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Resep Rahasia" class="class-img">
+                        <div class="class-content">
+                            <div class="class-category">Master Class</div>
+                            <h3 class="class-title">
+                                Resep Rahasia Chef Bintang 5
+                                <i class="fas fa-crown" style="color: var(--premium-gold);"></i>
+                            </h3>
+                            <div class="class-instructor">
+                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Instructor" class="instructor-avatar">
+                                <span>Chef Juna</span>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill premium-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions">
+                                <button class="btn-class btn-premium-action">Mulai Sekarang</button>
+                                <button class="btn-class btn-detail">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Class 6 - Premium -->
+                    <div class="class-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Live Class" class="class-img">
+                        <div class="class-content">
+                            <div class="class-category">Live Workshop</div>
+                            <h3 class="class-title">
+                                Live Class Mingguan
+                                <i class="fas fa-crown" style="color: var(--premium-gold);"></i>
+                            </h3>
+                            <div class="class-instructor">
+                                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Instructor" class="instructor-avatar">
+                                <span>Chef Sarah</span>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Next Session</span>
+                                    <span>Sabtu, 10:00</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill premium-progress" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions">
+                                <button class="btn-class btn-premium-action">Daftar Sekarang</button>
+                                <button class="btn-class btn-detail">Jadwal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.querySelector(".kelas").classList.add("active");
+    </script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style_index.css' %}">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>Virtual Culinary</span>
+                </a>
+
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#features">Fitur</a></li>
+                    <li><a href="#recipes">Resep</a></li>
+                    <li><a href="#testimonials">Testimoni</a></li>
+                    <li><a href="#pricing" class="nav-link">Harga</a></li>
+                    <li><a href="#about">Tentang</a></li>
+                </ul>
+               <!-- Auth Buttons (Desktop) -->
+    <div class="auth-buttons desktop-auth">
+        <a href="/login" class="btn btn-outline" target="_blank">Login</a>
+        <a href="" class="btn" target="_blank">Sign Up</a>
+    </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#features">Fitur</a></li>
+            <li><a href="#recipes">Resep</a></li>
+            <li><a href="#testimonials">Testimoni</a></li>
+            <li><a href="#pricing" class="nav-link">Harga</a></li>
+            <li><a href="#about">Tentang</a></li>
+        </ul>
+
+        <div class="auth-buttons">
+            <a href="/login"><button class="btn btn-outline login-btn">Masuk</button></a>
+            <a href="/signup"> <button class="btn signup-btn" href="/signup">Daftar</button></a>
+        </div>
+    </div>
+    <div class="menu-overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Pengalaman Kuliner Virtual</h1>
+                <p>Temukan cita rasa dunia dari dapur Anda dengan platform memasak interaktif kami. Belajar, masak, dan berbagi dengan komunitas global pecinta makanan.</p>
+                <button class="btn"><a href="login.html"></a>Jelajahi Sekarang</a></button>
+            </div>
+        </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Mengapa Memilih Kami</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3>Resep Global</h3>
+                    <p>Akses ratusan resep autentik dari seluruh dunia dengan panduan video langkah demi langkah.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Acara Langsung</h3>
+                    <p>Ikuti kelas memasak interaktif dan acara bersama chef profesional dan pakar kuliner.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Komunitas Aktif</h3>
+                    <p>Terhubung dengan sesama pecinta makanan, bagikan kreasi Anda, dan dapatkan masukan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Preview Section -->
+    <section class="recipe-preview" id="recipes">
+        <div class="container">
+            <h2 class="section-title">Resep Pilihan</h2>
+            <div class="recipe-slider">
+                <div class="recipe-slider-inner">
+                    <div class="recipe-card">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Healthy Salad" class="recipe-img">
+                        <div class="recipe-content">
+                            <h3>Salad Mediterania</h3>
+                            <p>Salad segar dan sehat dengan sayuran segar, zaitun, dan keju feta.</p>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 20 menit</span>
+                                <span><i class="fas fa-utensils"></i> Mudah</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recipe-card">
+                        <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="Pasta Dish" class="recipe-img">
+                        <div class="recipe-content">
+                            <h3>Pasta Carbonara Krim</h3>
+                            <p>Pasta Italia klasik dengan saus krim, pancetta, dan keju parmesan.</p>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 30 menit</span>
+                                <span><i class="fas fa-utensils"></i> Menengah</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recipe-card">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1371&q=80" alt="Thai Curry" class="recipe-img">
+                        <div class="recipe-content">
+                            <h3>Kari Hijau Thailand</h3>
+                            <p>Kari Thailand autentik dengan santan, sayuran, dan pilihan protein Anda.</p>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 45 menit</span>
+                                <span><i class="fas fa-utensils"></i> Menengah</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recipe-card">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" alt="Dessert" class="recipe-img">
+                        <div class="recipe-content">
+                            <h3>Kue Cokelat Lava</h3>
+                            <p>Kue cokelat lezat dengan bagian tengah meleleh, sempurna untuk acara spesial.</p>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 35 menit</span>
+                                <span><i class="fas fa-utensils"></i> Sulit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Paket Premium Kami</h2>
+            <p class="section-subtitle">Buka kunci pengetahuan kuliner tak terbatas dengan keanggotaan all-inclusive kami</p>
+            
+            <div class="pricing-cards">
+                <!-- Premium Package Card -->
+                <div class="pricing-card premium">
+                    <div class="pricing-header">
+                        <h3>Akses Premium</h3>
+                        <div class="price">
+                            <span class="amount">Rp100,000</span>
+                            <span class="period">/bulan</span>
+                        </div>
+                        <p class="description">Akses penuh ke semua fitur dan konten</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Akses tak terbatas ke semua kelas memasak</li>
+                            <li><i class="fas fa-check-circle"></i> Sertifikat yang dapat diunduh untuk kursus yang diselesaikan</li>
+                            <li><i class="fas fa-check-circle"></i> Akses prioritas ke acara langsung</li>
+                            <li><i class="fas fa-check-circle"></i> Resep eksklusif dari master chef</li>
+                            <li><i class="fas fa-check-circle"></i> Penyimpanan resep pribadi</li>
+                            <li><i class="fas fa-check-circle"></i> Statistik Harian hingga Tahunan</li>
+
+                        </ul>
+                    </div>
+                    <div class="pricing-footer">
+                        <a href="register.html" class="btn">Mulai Sekarang</a>
+                        <p class="small-text">Bisa dibatalkan kapan saja</p>
+                    </div>
+                    <div class="popular-badge">NILAI TERBAIK</div>
+                </div>
+                
+                <!-- Free Package Card (for comparison) -->
+                <div class="pricing-card free">
+                    <div class="pricing-header">
+                        <h3>Akses Basic</h3>
+                        <div class="price">
+                            <span class="amount">GRATIS</span>
+                        </div>
+                        <p class="description">Akses terbatas ke konten kami</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 3 resep per minggu</li>
+                            <li><i class="fas fa-check-circle"></i> Akses ke kelas pemula</li>
+                            <li><i class="fas fa-times-circle"></i> Tidak ada sertifikat</li>
+                            <li><i class="fas fa-times-circle"></i> Tidak ada akses acara langsung</li>
+                            <li><i class="fas fa-times-circle"></i> Dukungan dasar saja</li>
+                            <li><i class="fas fa-times-circle"></i> Statistik Harian hingga Tahunan</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-footer">
+                        <a href="register.html" class="btn btn-outline">Daftar Gratis</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Apa Kata Pengguna Kami</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-content">Pengalaman Kuliner Virtual telah mengubah keterampilan memasak saya. Video langkah demi langkah membuat bahkan resep kompleks terasa mudah. Saya berhasil memukau keluarga dengan hidangan yang tidak pernah saya bayangkan bisa dibuat!</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Pemula Memasak, 6 bulan bersama kami</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">Sebagai chef profesional, saya menghargai keaslian resep-resepnya. Platform ini menghubungkan saya dengan pecinta makanan di seluruh dunia, dan acara langsungnya fantastis untuk berbagi pengetahuan.</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Carlos M." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Carlos Martinez</h4>
+                            <p>Chef Profesional, Instruktur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">Aspek komunitas adalah yang membedakan platform ini. Saya berteman dengan orang dari berbagai negara, dan kami rutin memasak bersama secara virtual. Seperti berkeliling dunia melalui makanan!</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya K." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Priya Kapoor</h4>
+                            <p>Pecinta Makanan, Bergabung 1 tahun lalu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Kuliner Virtual</h2>
+            <div class="about-content">
+                <p>Kuliner Virtual didirikan dengan misi membuat masakan global dapat diakses oleh semua orang. Baik Anda pemula atau profesional, platform kami menawarkan alat, panduan, dan komunitas untuk membantu Anda menjelajahi kuliner dari seluruh dunia.</p>
+                <p>Kami percaya makanan menyatukan orang. Itulah mengapa kami menyediakan fitur interaktif, acara langsung, dan ruang untuk berbagi dan terhubung dengan sesama pecinta masak. Bergabunglah dalam perjalanan lezat ini!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Kuliner Virtual</h3>
+                    <p>Temukan cita rasa dunia dari dapur Anda dengan platform memasak interaktif kami.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Tautan Cepat</h3>
+                    <ul>
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#recipes">Resep</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@kuliniervirtual.com</li>
+                        <li><i class="fas fa-phone"></i> 00000000</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Culinary Virtual . Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Customer Service Chat -->
+    <div class="customer-service">
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <h4>Customer Service</h4>
+                <i class="fas fa-times close-chat"></i>
+            </div>
+            <div class="chat-body">
+                <div class="chat-message bot-message">
+                    <p>Halo! Ada yang bisa kami bantu?</p>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" class="chat-input" placeholder="Ketik pesan Anda...">
+            </div>
+        </div>
+        <div class="chat-button" id="chatButton">
+            <i class="fas fa-comments"></i>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+

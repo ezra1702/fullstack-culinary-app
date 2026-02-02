@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="{% static 'css/users/dashboard.css' %}">
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        {% include "snippets/users/sidebar.html" %}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="greeting">
+                <h1>Selamat Pagi, Chef {{ user }}! <span class="premium-badge" style="margin-left: 10px;"><i class="fas fa-crown"></i> PREMIUM</span></h1>
+                <p>Nikmati semua fitur premium yang tersedia untuk Anda</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Kelas Diikuti</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Sertifikat</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Resep Dicoba</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="stat-value">Premium</div>
+                    <div class="stat-label">Member</div>
+                </div>
+            </div>
+
+            <!-- Premium Features Section -->
+            <h2 class="section-title">Fitur Premium Anda</h2>
+            <div class="courses-grid">
+                <div class="course-card premium-feature">
+                    <div class="premium-tag">PREMIUM</div>
+                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Kelas Premium" class="course-img">
+                    <div class="course-content">
+                        <h3 class="course-title">Kelas Master Chef</h3>
+                        <p class="course-desc">Akses eksklusif ke kelas master chef dengan teknik profesional</p>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Akses Sekarang</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card premium-feature">
+                    <div class="premium-tag">PREMIUM</div>
+                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Resep Rahasia" class="course-img">
+                    <div class="course-content">
+                        <h3 class="course-title">Resep Rahasia</h3>
+                        <p class="course-desc">100+ resep eksklusif hanya untuk member premium</p>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Lihat Resep</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card premium-feature">
+                    <div class="premium-tag">PREMIUM</div>
+                    <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Live Class" class="course-img">
+                    <div class="course-content">
+                        <h3 class="course-title">Live Class Mingguan</h3>
+                        <p class="course-desc">Interaksi langsung dengan chef profesional setiap minggu</p>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Jadwal Live</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ongoing Courses -->
+            <h2 class="section-title">Kelas Berjalan</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Masakan Indonesia" class="course-img">
+                    <div class="course-content">
+                        <h3 class="course-title">Masakan Tradisional Indonesia <span class="premium-badge" style="font-size: 10px; margin-left: 5px;"><i class="fas fa-crown"></i></span></h3>
+                        <p class="course-desc">Pelajari resep-resep warisan nenek moyang dari berbagai daerah</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Lanjutkan</button>
+                            <button class="btn btn-outline">Detail</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Masakan Vegetarian" class="course-img">
+                    <div class="course-content">
+                        <h3 class="course-title">Masakan Vegetarian</h3>
+                        <p class="course-desc">Kreasi masakan sehat tanpa daging yang lezat dan bergizi</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>42%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 42%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Lanjutkan</button>
+                            <button class="btn btn-outline">Detail</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card premium-feature">
+                    <div class="premium-tag">PREMIUM</div>
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1071&q=80" alt="Dessert" class="course-img">
+                    <div class="course-content">
+                        <h3 class="course-title">Dessert Modern</h3>
+                        <p class="course-desc">Teknik membuat dessert kekinian dengan penyajian instagramable</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 15%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Lanjutkan</button>
+                            <button class="btn btn-outline">Detail</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Section -->
+            <h2 class="section-title">Keahlian Memasak</h2>
+            <div class="skills-container">
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Masakan Indonesia <i class="fas fa-crown" style="color: #f6d365; margin-left: 5px;"></i></span>
+                        <span class="skill-level">Mahir</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%; background-color: var(--primary-color);"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Memanggang</span>
+                        <span class="skill-level">Menengah</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%; background-color: var(--primary-light);"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Teknik Pisau <i class="fas fa-crown" style="color: #f6d365; margin-left: 5px;"></i></span>
+                        <span class="skill-level">Pemula</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 40%; background-color: #7fcdbb;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Plating</span>
+                        <span class="skill-level">Menengah</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%; background-color: var(--primary-light);"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.querySelector(".dashboard").classList.add("active");
+    </script>
+</body>
+</html>

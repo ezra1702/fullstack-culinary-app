@@ -1,0 +1,44 @@
+       <aside class="sidebar">
+            <div class="user-profile">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" class="user-avatar">
+                <h3 class="username">Chef {{ user }}</h3>
+                <p class="user-email">{{ email }}</p>
+                <!-- Tambahkan badge premium -->
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> PREMIUM MEMBER
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{%url 'dashboard'%}" class="nav-link dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'kelas'%}" class="nav-link kelas">
+                        <i class="fas fa-book-open"></i> Kelas Saya
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'sertifikat'%}" class="nav-link sertifikat">
+                        <i class="fas fa-certificate"></i> Sertifikat
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'statistik'%}" class="nav-link statistik">
+                        <i class="fas fa-chart-line"></i> Statistik
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'pengaturan'%}" class="nav-link pengaturan">
+                        <i class="fas fa-cog"></i> Pengaturan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </a>
+                </li>
+            </ul>
+        </aside>

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan - Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="{% static 'css/users/pengaturan.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        {% include "snippets/users/sidebar.html" %}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="settings-container">
+                <div class="settings-header">
+                    <h1>
+                        Pengaturan Akun
+                        <span class="premium-badge">
+                            <i class="fas fa-crown"></i> PREMIUM
+                        </span>
+                    </h1>
+                    <p>Kelola informasi akun dan preferensi Anda</p>
+                </div>
+                
+                <!-- Premium Features Section -->
+                <div class="premium-features">
+                    <div class="premium-features-header">
+                        <h2 class="premium-features-title">
+                            <i class="fas fa-crown"></i> Keanggotaan Premium Anda
+                        </h2>
+                        <div class="premium-badge">AKTIF</div>
+                    </div>
+                    <p>Anda menikmati semua fitur premium sebagai member VIP kami. Keanggotaan aktif hingga 12 Desember 2024.</p>
+                    
+                    <ul class="premium-features-list">
+                        <li><i class="fas fa-check-circle"></i> Akses ke semua kelas premium</li>
+                        <li><i class="fas fa-check-circle"></i> Sertifikat kelulusan digital</li>
+                        <li><i class="fas fa-check-circle"></i> Prioritas dukungan pelanggan</li>
+                        <li><i class="fas fa-check-circle"></i> Diskon 20% untuk semua pembelian</li>
+                    </ul>
+                    
+                    <button class="btn btn-premium" style="margin-top: 15px;">
+                        <i class="fas fa-crown"></i> Kelola Keanggotaan
+                    </button>
+                </div>
+                
+                <div class="settings-tabs">
+                    <div class="tab active" data-tab="profile">Profil</div>
+                    <div class="tab" data-tab="security">Keamanan</div>
+                    <div class="tab" data-tab="notifications">Notifikasi</div>
+                </div>
+                
+                <!-- Profile Section -->
+               {%include "snippets/users/pengaturan/profil.html"%}
+                
+                <!-- Security Section -->
+              {%include "snippets/users/pengaturan/security.html"%}
+                
+                <!-- Notification Section -->
+               {%include "snippets/users/pengaturan/notifikasi.html"%}
+            
+            </div>
+        </main>
+    </div>
+
+   <script src="{% static 'js/users/pengaturan.js' %}"></script>
+</body>
+</html>

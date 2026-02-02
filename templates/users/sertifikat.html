@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikat - Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="{% static 'css/users/sertifikat.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        {% include "snippets/users/sidebar.html" %}
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="certificates-container">
+                <div class="certificate-header">
+                    <h1>
+                        Sertifikat Saya
+                        <span class="premium-badge">
+                            <i class="fas fa-crown"></i> PREMIUM
+                        </span>
+                    </h1>
+                    <div class="search-filter">
+                        <input type="text" class="search-box" placeholder="Cari sertifikat...">
+                        <select class="filter-dropdown">
+                            <option>Semua</option>
+                            <option>Masakan Indonesia</option>
+                            <option>Masakan Internasional</option>
+                            <option>Dessert</option>
+                            <option>Master Class</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Premium Features Section -->
+                <div class="premium-section">
+                    <div class="premium-section-header">
+                        <h2 class="premium-section-title">
+                            <i class="fas fa-crown"></i> Fitur Premium Sertifikat
+                        </h2>
+                        <div class="premium-badge">AKSES PENUH</div>
+                    </div>
+                    <p>Sebagai member premium, Anda bisa mengakses semua sertifikat dengan fitur tambahan seperti sertifikat digital premium, verifikasi online, dan sertifikat VIP Master Class.</p>
+                </div>
+                
+                <div class="certificates-grid">
+                    <!-- Certificate 1 - Premium -->
+                    <div class="certificate-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Sertifikat Masakan Indonesia" class="certificate-img">
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">
+                                Masakan Tradisional Indonesia
+                                <i class="fas fa-crown"></i>
+                            </h3>
+                            <p class="certificate-date">
+                                <i class="far fa-calendar-alt"></i> Diperoleh: 15 Juni 2023
+                            </p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-premium-cert">Lihat Digital</button>
+                                <button class="btn-certificate btn-download">Unduh PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 2 - Premium -->
+                    <div class="certificate-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Sertifikat Baking" class="certificate-img">
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">
+                                Teknik Dasar Baking
+                                <i class="fas fa-crown"></i>
+                            </h3>
+                            <p class="certificate-date">
+                                <i class="far fa-calendar-alt"></i> Diperoleh: 2 April 2023
+                            </p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-premium-cert">Lihat Digital</button>
+                                <button class="btn-certificate btn-download">Unduh PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 3 - Premium -->
+                    <div class="certificate-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Sertifikat Vegetarian" class="certificate-img">
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">
+                                Masakan Vegetarian Modern
+                                <i class="fas fa-crown"></i>
+                            </h3>
+                            <p class="certificate-date">
+                                <i class="far fa-calendar-alt"></i> Diperoleh: 28 Februari 2023
+                            </p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-premium-cert">Lihat Digital</button>
+                                <button class="btn-certificate btn-download">Unduh PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 4 - VIP Exclusive -->
+                    <div class="certificate-card">
+                        <div class="vip-tag">VIP EXCLUSIVE</div>
+                        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Sertifikat Master Class" class="certificate-img">
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">
+                                Master Class Chef Internasional
+                                <i class="fas fa-crown"></i>
+                            </h3>
+                            <p class="certificate-date">
+                                <i class="far fa-calendar-alt"></i> Diperoleh: 10 Januari 2023
+                            </p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-premium-cert">Verifikasi Online</button>
+                                <button class="btn-certificate btn-download">Unduh PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 5 - Premium -->
+                    <div class="certificate-card">
+                        <div class="premium-tag">PREMIUM</div>
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1071&q=80" alt="Sertifikat Dessert" class="certificate-img">
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">
+                                Teknik Dessert Premium
+                                <i class="fas fa-crown"></i>
+                            </h3>
+                            <p class="certificate-date">
+                                <i class="far fa-calendar-alt"></i> Diperoleh: 5 Desember 2022
+                            </p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-premium-cert">Lihat Digital</button>
+                                <button class="btn-certificate btn-download">Unduh PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate 6 - VIP Exclusive -->
+                    <div class="certificate-card">
+                        <div class="vip-tag">VIP EXCLUSIVE</div>
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Sertifikat Master Class" class="certificate-img">
+                        <div class="certificate-content">
+                            <h3 class="certificate-title">
+                                Resep Rahasia Bintang 5
+                                <i class="fas fa-crown"></i>
+                            </h3>
+                            <p class="certificate-date">
+                                <i class="far fa-calendar-alt"></i> Diperoleh: 20 November 2022
+                            </p>
+                            <div class="certificate-actions">
+                                <button class="btn-certificate btn-premium-cert">Verifikasi Online</button>
+                                <button class="btn-certificate btn-download">Unduh PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script>
+    document.querySelector(".sertifikat").classList.add("active");
+</script>
+</body>
+</html>

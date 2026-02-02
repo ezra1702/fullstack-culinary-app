@@ -1,0 +1,81 @@
+  <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin Avatar" class="admin-avatar">
+                <div class="admin-info">
+                    <h3>Admin {{ user }}</h3>
+                    <p>{{ email }}</p>
+                    <span class="admin-badge">
+                        <i class="fas fa-shield-alt"></i> Administrator
+                    </span>
+                </div>
+            </div>
+            
+            <nav class="admin-nav">
+                <div class="admin-nav-section">
+                    <div class="nav-section-title">Dasbor</div>
+                    <div class="admin-nav-item">
+                        <a href="{% url 'admin_dashboard' %}" class="admin-nav-link admin_dashboard">
+                            <i class="fas fa-home nav-icon"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="admin-nav-section">
+                    <div class="nav-section-title">Manajemen</div>
+                    <div class="admin-nav-item">
+                        <a href="{% url 'manage_users' %}" class="admin-nav-link manage_users">
+                            <i class="fas fa-users nav-icon"></i>
+                            <span class="nav-text">Kelola User</span>
+                            <span class="nav-badge">245</span>
+                        </a>
+                    </div>
+                    <div class="admin-nav-item">
+                        <a href="{% url 'manage_courses' %}" class="admin-nav-link manage_courses">
+                            <i class="fas fa-book nav-icon"></i>
+                            <span class="nav-text">Kelola Kelas</span>
+                            <span class="nav-badge">48</span>
+                        </a>
+                    </div>
+                    <div class="admin-nav-item">
+                        <a href="{% url 'manage_chefs' %}" class="admin-nav-link manage_chefs">
+                            <i class="fas fa-user-tie nav-icon"></i>
+                            <span class="nav-text">Kelola Chef</span>
+                            <span class="nav-badge">12</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="admin-nav-section">
+                    <div class="nav-section-title">Analisis</div>
+                    <div class="admin-nav-item">
+                        <a href="{% url 'admin_laporan' %}" class="admin-nav-link admin_laporan">
+                            <i class="fas fa-chart-bar nav-icon"></i>
+                            <span class="nav-text">Laporan</span>
+                        </a>
+                    </div>
+                    <div class="admin-nav-item">
+                        <a href="#" class="admin-nav-link admin_analisis">
+                            <i class="fas fa-chart-line nav-icon"></i>
+                            <span class="nav-text">Analytics</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="admin-nav-section">
+                    <div class="nav-section-title">Pengaturan</div>
+                    <div class="admin-nav-item">
+                        <a href="{% url 'admin_pengaturan' %}" class="admin-nav-link admin_pengaturan">
+                            <i class="fas fa-cog nav-icon"></i>
+                            <span class="nav-text">Pengaturan</span>
+                        </a>
+                    </div>
+                    <div class="admin-nav-item">
+                        <a href="#" class="admin-nav-link">
+                            <i class="fas fa-sign-out-alt nav-icon"></i>
+                            <span class="nav-text">Keluar</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>

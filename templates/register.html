@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Virtual Culinary Experience</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <!-- Google Sign In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Registration Success Animation -->
+    <div class="register-feedback" id="success-animation">
+        <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <div class="feedback-message">Registration Successful! Redirecting to login...</div>
+    </div>
+    
+    <!-- Registration Failed Animation -->
+    <div class="register-feedback" id="failed-animation">
+        <svg class="failure-cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="failure-cross-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="failure-cross-line left" fill="none" d="M16 16 36 36" stroke="#ff4444" stroke-width="3"/>
+            <path class="failure-cross-line right" fill="none" d="M16 36 36 16" stroke="#ff4444" stroke-width="3"/>
+        </svg>
+        <div class="feedback-message" id="error-message">Registration Failed! Please try again.</div>
+    </div>
+
+    <!-- Register Container -->
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-logo">
+                <i class="fas fa-utensils"></i>
+                <h2>Create Account</h2>
+                <p class="register-subtitle">Join our culinary community</p>
+            </div>
+
+            <!-- Manual Registration Form -->
+            <form id="registerForm" class="register-form">
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="firstName">
+                            <i class="fas fa-user"></i> Nama Depan
+                        </label>
+                        <input type="text" id="firstName" placeholder="Masukkan nama depan" required>
+                    </div>
+                    <div class="form-group half">
+                        <label for="lastName">
+                            <i class="fas fa-user"></i> Nama Belakang
+                        </label>
+                        <input type="text" id="lastName" placeholder="Masukkan nama belakang" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="userEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="userEmail" placeholder="Masukkan email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="userPhone">
+                        <i class="fas fa-phone"></i> Nomor Telepon
+                    </label>
+                    <input type="tel" id="userPhone" placeholder="Masukkan nomor telepon" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="userPassword">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <input type="password" id="userPassword" placeholder="Masukkan password" required>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-bar-inner"></div>
+                            </div>
+                            <div class="strength-text">Kekuatan: <span id="strengthText">Lemah</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group half">
+                        <label for="confirmPassword">
+                            <i class="fas fa-lock"></i> Konfirmasi Password
+                        </label>
+                        <input type="password" id="confirmPassword" placeholder="Konfirmasi password" required>
+                        <div class="password-match">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="matchText">Password cocok</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group terms">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" required>
+                        <span>Saya setuju dengan <a href="#">Syarat Layanan</a> dan <a href="#">Kebijakan Privasi</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    <i class="fas fa-user-plus"></i> Daftar Sekarang
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>Atau daftar dengan</span>
+            </div>
+
+            <!-- Social Sign Up Buttons -->
+            <div class="social-signup">
+                <div class="social-buttons">
+                    <!-- Google Sign In Button -->
+                    <div class="social-button google-btn" id="googleSignInBtn">
+                        <i class="fab fa-google"></i>
+                        <span>Daftar dengan Google</span>
+                    </div>
+
+                    <!-- Facebook Sign In Button -->
+                    <div class="social-button facebook-btn" id="facebookSignInBtn">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Daftar dengan Facebook</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-link">
+                Sudah punya akun? <a href="/login">Login disini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Virtual Culinary. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>

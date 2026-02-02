@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: db_culinary
+      MYSQL_USER: virtual_culinary
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: pma_db
+    restart: always
+    environment:
+      PMA_HOST: db        # Ini harus sama dengan nama service database di atas (db)
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"         # Kamu akses via port 8080 di browser
+
+volumes:
+  mysql_data:

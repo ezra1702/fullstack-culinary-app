@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik - Virtual Culinary Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <link rel="stylesheet" href="{% static 'css/users/statistik.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        {% include "snippets/users/sidebar.html" %}
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="stats-container">
+                <div class="stats-header">
+                    <h1>
+                        Statistik Belajar
+                        <span class="premium-badge">
+                            <i class="fas fa-crown"></i> PREMIUM
+                        </span>
+                    </h1>
+                    <div class="search-filter">
+                        <select class="filter-dropdown">
+                            <option>Semua Kelas</option>
+                            <option>Masakan Indonesia</option>
+                            <option>Baking</option>
+                            <option>Vegetarian</option>
+                            <option>Master Class</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Premium Features Section -->
+                <div class="premium-section">
+                    <div class="premium-section-header">
+                        <h2 class="premium-section-title">
+                            <i class="fas fa-crown"></i> Fitur Premium Statistik
+                        </h2>
+                        <div class="premium-badge">AKSES PENUH</div>
+                    </div>
+                    <p>Sebagai member premium, Anda mendapatkan analisis statistik lengkap dengan fitur tambahan seperti perbandingan dengan pengguna lain, prediksi perkembangan, dan akses ke data historis lengkap.</p>
+                </div>
+                
+                <!-- Time Filter -->
+                <div class="time-filter">
+                    <button class="time-btn">Hari Ini</button>
+                    <button class="time-btn">Minggu Ini</button>
+                    <button class="time-btn active">Bulan Ini</button>
+                    <button class="time-btn">Tahun Ini</button>
+                    <button class="time-btn">Semua</button>
+                </div>
+                
+                <!-- Stats Summary -->
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <div class="premium-stats-tag">PREMIUM</div>
+                        <div class="stats-card-title">Total Jam Belajar</div>
+                        <div class="stats-card-value premium-stats-value">28.5</div>
+                        <div class="stats-card-change change-up">
+                            <i class="fas fa-arrow-up"></i> 12% dari bulan lalu
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <div class="premium-stats-tag">PREMIUM</div>
+                        <div class="stats-card-title">Kelas Diselesaikan</div>
+                        <div class="stats-card-value premium-stats-value">3</div>
+                        <div class="stats-card-change change-up">
+                            <i class="fas fa-arrow-up"></i> 1 kelas baru
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <div class="vip-stats-tag">VIP</div>
+                        <div class="stats-card-title">Resep Dicoba</div>
+                        <div class="stats-card-value vip-stats-value">15</div>
+                        <div class="stats-card-change change-down">
+                            <i class="fas fa-arrow-down"></i> 20% lebih sedikit
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <div class="premium-stats-tag">PREMIUM</div>
+                        <div class="stats-card-title">Poin Pembelajaran</div>
+                        <div class="stats-card-value premium-stats-value">1,240</div>
+                        <div class="stats-card-change change-up">
+                            <i class="fas fa-arrow-up"></i> 340 poin baru
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity Chart -->
+                <div class="chart-container">
+                    <div class="premium-chart-tag">PREMIUM ANALYTICS</div>
+                    <div class="chart-header">
+                        <h3 class="chart-title">Aktivitas Belajar</h3>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #4e73df;"></div>
+                                <span>Waktu Belajar (jam)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #1cc88a;"></div>
+                                <span>Resep Dicoba</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #f6d365;"></div>
+                                <span>Master Class</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-wrapper">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Progress Chart -->
+                <div class="chart-container">
+                    <div class="premium-chart-tag">VIP ANALYTICS</div>
+                    <div class="chart-header">
+                        <h3 class="chart-title">Progress Keahlian</h3>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #4e73df;"></div>
+                                <span>Sekarang</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #dddddd;"></div>
+                                <span>Bulan Lalu</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #f6d365;"></div>
+                                <span>Rata-rata Pengguna</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="skillChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Top Categories -->
+                <h3 class="section-title">
+                    <i class="fas fa-trophy"></i> Top Kategori
+                </h3>
+                <div class="top-categories">
+                    <div class="category-item premium-category">
+                        <div class="category-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Masakan Indonesia</div>
+                            <div class="category-count">8 resep, 12 jam</div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-bread-slice"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Baking</div>
+                            <div class="category-count">5 resep, 6 jam</div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Vegetarian</div>
+                            <div class="category-count">4 resep, 5 jam</div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item premium-category">
+                        <div class="category-icon">
+                            <i class="fas fa-ice-cream"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Dessert</div>
+                            <div class="category-count">3 resep, 4 jam</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="{% static 'js/users/statistik.js' %}"></script>
+    
+</body>
+</html>
