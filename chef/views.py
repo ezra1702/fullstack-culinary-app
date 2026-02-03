@@ -4,8 +4,10 @@ from django.db import transaction
 from administration.models import create_user, ChefProfile
 
 def chef(request):
-    """Menampilkan halaman registrasi Chef"""
     return render(request, 'chef/register.html')
+
+def dashboard(request):
+    return render(request, 'chef/dashboard.html')
 
 def register_chef(request):
     """Proses pendaftaran Chef: Tanpa Verifikasi (Auto-Active)"""
