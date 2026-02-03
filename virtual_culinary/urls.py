@@ -33,6 +33,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('administration/', include('administration.urls')),
     path('register/', include('register.urls')),
+    path('chef/', include('chef.urls')),
     # re_path(r'^(?P<path_html>.*)\.(' + '|'.join(tuple_path) + ')$', views.clear_extension),
     # re_path(r'^.*$', views.randomUsers),
 ]

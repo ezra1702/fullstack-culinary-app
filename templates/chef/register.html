@@ -1,0 +1,312 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Chef - Virtual Culinary Experience</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/chef/register.css' %}">
+    <!-- Google Sign In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Registration Success Animation -->
+    <div class="register-feedback" id="success-animation">
+        <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <div class="feedback-message">Registration Successful!</div>
+    </div>
+    
+    <!-- Registration Failed Animation -->
+    <div class="register-feedback" id="failed-animation">
+        <svg class="failure-cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="failure-cross-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="failure-cross-line left" fill="none" d="M16 16 36 36" stroke="#ff4444" stroke-width="3"/>
+            <path class="failure-cross-line right" fill="none" d="M16 36 36 16" stroke="#ff4444" stroke-width="3"/>
+        </svg>
+        <div class="feedback-message" id="error-message">Registration Failed! Please try again.</div>
+    </div>
+
+    <!-- Register Container -->
+    <div class="register-container">
+        <div class="register-card">
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-label">Data Diri</span>
+                </div>
+                <div class="step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-label">Verifikasi</span>
+                </div>
+                <div class="step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-label">Portfolio</span>
+                </div>
+                <div class="step" data-step="4">
+                    <span class="step-number">4</span>
+                    <span class="step-label">Selesai</span>
+                </div>
+            </div>
+
+            <div class="register-logo">
+                <i class="fas fa-chef-hat"></i>
+                <h2>Daftar sebagai Chef</h2>
+                <p class="register-subtitle">Bergabunglah dengan komunitas chef profesional kami</p>
+            </div>
+
+            <!-- Step 1: Data Diri -->
+            <form id="registerForm" class="register-form" action="{% url 'submitRegisterChef' %}" method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    
+    <div class="form-step active" id="step1">
+        <h3 class="step-title">
+            <i class="fas fa-user-circle"></i> Informasi Dasar
+        </h3>
+        
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="namaDepan">
+                    <i class="fas fa-user"></i> Nama Depan *
+                </label>
+                <input type="text" id="namaDepan" name="namaDepan" placeholder="Masukkan nama depan" required>
+            </div>
+            <div class="form-group half">
+                <label for="namaBelakang">
+                    <i class="fas fa-user"></i> Nama Belakang
+                </label>
+                <input type="text" id="namaBelakang" name="namaBelakang" placeholder="Masukkan nama belakang">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="email">
+                    <i class="fas fa-envelope"></i> Email *
+                </label>
+                <input type="email" id="email" name="email" placeholder="Masukkan email" required>
+            </div>
+            <div class="form-group half">
+                <label for="telp">
+                    <i class="fas fa-phone"></i> Nomor Telepon *
+                </label>
+                <input type="tel" id="telp" name="telp" placeholder="+628123456789" required>
+                <div class="form-text">Format: +628123456789</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="password">
+                    <i class="fas fa-lock"></i> Password *
+                </label>
+                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                <div class="password-strength">
+                    <div class="strength-bar">
+                        <div class="strength-bar-inner"></div>
+                    </div>
+                    <div class="strength-text">Kekuatan: <span id="strengthText">Lemah</span></div>
+                </div>
+            </div>
+            
+            <div class="form-group half">
+                <label for="confirmPassword">
+                    <i class="fas fa-lock"></i> Konfirmasi Password *
+                </label>
+                <input type="password" id="confirmPassword" name="password_confirm" placeholder="Konfirmasi password" required>
+                <div class="password-match">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="matchText">Password cocok</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-outline" onclick="window.location.href='/register'">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">
+                Lanjut <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="form-step" id="step2">
+        <h3 class="step-title">
+            <i class="fas fa-id-card"></i> Verifikasi Identitas Chef
+        </h3>
+        
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="no_ktp">
+                    <i class="fas fa-id-card"></i> Nomor KTP *
+                </label>
+                <input type="text" id="no_ktp" name="no_ktp" placeholder="Masukkan 16 digit nomor KTP" 
+                        pattern="\d{16}" maxlength="16" required>
+                <div class="form-text">16 digit tanpa spasi atau tanda baca</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="foto_ktp">
+                <i class="fas fa-camera"></i> Foto KTP *
+            </label>
+            <div class="file-upload-area" id="ktpUploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Seret & lepas foto KTP di sini atau <span class="browse-text">pilih file</span></p>
+                <input type="file" id="foto_ktp" name="foto_ktp" accept="image/*" hidden required>
+                <div class="file-preview" id="ktpPreview"></div>
+            </div>
+            <div class="form-text">Format: JPG/PNG, maksimal 5MB. Pastikan foto jelas dan terbaca</div>
+        </div>
+
+        <div class="form-group">
+            <label for="file_cv">
+                <i class="fas fa-file-pdf"></i> Curriculum Vitae (CV) *
+            </label>
+            <div class="file-upload-area" id="cvUploadArea">
+                <i class="fas fa-file-upload"></i>
+                <p>Unggah CV Anda (PDF/DOC) <span class="browse-text">pilih file</span></p>
+                <input type="file" id="file_cv" name="file_cv" accept=".pdf,.doc,.docx" hidden required>
+                <div class="file-preview" id="cvPreview"></div>
+            </div>
+            <div class="form-text">Format: PDF atau DOC, maksimal 10MB</div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-outline" onclick="prevStep()">
+                <i class="fas fa-arrow-left"></i> Sebelumnya
+            </button>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">
+                Lanjut <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="form-step" id="step3">
+        <h3 class="step-title">
+            <i class="fas fa-briefcase"></i> Portfolio Profesional
+        </h3>
+        
+        <div class="form-group">
+            <label>
+                <i class="fas fa-graduation-cap"></i> Pendidikan
+            </label>
+            <div class="dynamic-input-container" id="pendidikanContainer">
+                <div class="input-group">
+                    <input type="text" name="pendidikan[]" class="pendidikan-input" placeholder="Contoh: Culinary Arts School - S1" data-index="0">
+                    <button type="button" class="btn-remove-input" onclick="removeInput('pendidikan', 0)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="btn-add-input" onclick="addInput('pendidikan')">
+                <i class="fas fa-plus"></i> Tambah Pendidikan
+            </button>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <i class="fas fa-star"></i> Spesialisasi
+            </label>
+            <div class="dynamic-input-container" id="spesialisasiContainer">
+                <div class="input-group">
+                    <input type="text" name="spesialisasi[]" class="spesialisasi-input" placeholder="Contoh: Pastry, Japanese Cuisine" data-index="0">
+                    <button type="button" class="btn-remove-input" onclick="removeInput('spesialisasi', 0)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="btn-add-input" onclick="addInput('spesialisasi')">
+                <i class="fas fa-plus"></i> Tambah Spesialisasi
+            </button>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <i class="fas fa-history"></i> Riwayat Kerja
+            </label>
+            <div class="dynamic-input-container" id="riwayatContainer">
+                <div class="riwayat-input-group" data-index="0">
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <input type="text" name="kerja_posisi[]" class="riwayat-posisi" placeholder="Posisi (Head Chef, etc.)">
+                        </div>
+                        <div class="form-group half">
+                            <input type="text" name="kerja_tempat[]" class="riwayat-tempat" placeholder="Tempat (Hotel X, Restaurant Y)">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-remove-input" onclick="removeInput('riwayat', 0)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="btn-add-input" onclick="addInput('riwayat')">
+                <i class="fas fa-plus"></i> Tambah Riwayat Kerja
+            </button>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <i class="fas fa-share-alt"></i> Link Sosial Media (Opsional)
+            </label>
+            <div class="social-links">
+                <div class="social-link-input">
+                    <i class="fab fa-instagram"></i>
+                    <input type="url" name="sosmed_ig" id="instagram" placeholder="https://instagram.com/username">
+                </div>
+                <div class="social-link-input">
+                    <i class="fab fa-linkedin"></i>
+                    <input type="url" name="sosmed_li" id="linkedin" placeholder="https://linkedin.com/in/username">
+                </div>
+                <div class="social-link-input">
+                    <i class="fab fa-youtube"></i>
+                    <input type="url" name="sosmed_yt" id="youtube" placeholder="https://youtube.com/@channel">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group terms">
+            <label class="checkbox-label">
+                <input type="checkbox" id="terms" name="terms_confirmed" required>
+                <span>Saya menyatakan bahwa data yang saya berikan adalah benar dan siap diverifikasi oleh admin.</span>
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-outline" onclick="prevStep()">
+                <i class="fas fa-arrow-left"></i> Sebelumnya
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Daftar sebagai Chef
+            </button>
+        </div>
+    </div>
+</form>
+            <div class="login-link">
+                Sudah punya akun? <a href="/login">Login disini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Virtual Culinary. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/chef/register.js' %}"></script>
+</body>
+</html>

@@ -5,9 +5,6 @@ from administration.models import create_user
 def register(request):
     return render(request, 'register.html')
 
-def login(request):
-    return render(request, 'login.html')
-
 def submit(request):
     if request.method == "POST":
         # 1. Ambil Data dari Form

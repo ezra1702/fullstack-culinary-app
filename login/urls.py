@@ -1,6 +1,7 @@
-from django.urls import include, path
-
+from django.urls import path
 from . import views
+
 urlpatterns = [
-    path('', views.login),
+    # Nama 'login' di sini yang dicari oleh redirect('login')
+    path('', views.login, name='login'), 
 ]
