@@ -1,0 +1,73 @@
+    <aside class="sidebar">
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80" 
+                     alt="Foto Chef" class="user-avatar chef-avatar-animate">
+                
+                <h3 class="username">Chef Budi Santoso</h3>
+                <p class="user-email">chef.budi@example.com</p>
+                
+                <!-- Rating Chef -->
+                <div class="chef-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="rating-text">4.7/5.0 (128 review)</span>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{% url 'chef' %}" class="nav-link dashboard" id="dashboard-link">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'kelasChef' %}" class="nav-link kelas" id="kelas-link">
+                        <i class="fas fa-book-open"></i> Kelas Saya
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'muridChef' %}" class="nav-link murid" id="murid-link">
+                        <i class="fas fa-users"></i> Murid
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'statistikChef' %}" class="nav-link statistik" id="analytics-link">
+                        <i class="fas fa-chart-pie"></i> Statistik
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'pengaturanChef' %}" class="nav-link pengaturan" id="portfolio-link">
+                        <i class="fas fa-cog"></i> Pengaturan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'logoutChef' %}" class="nav-link" id="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Mini Stats -->
+            <div class="sidebar-stats">
+                <div class="stat-mini">
+                    <i class="fas fa-user-graduate"></i>
+                    <div>
+                        <span class="stat-value-mini" id="mini-students">156</span>
+                        <span class="stat-label-mini">Murid</span>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <i class="fas fa-book"></i>
+                    <div>
+                        <span class="stat-value-mini" id="mini-courses">8</span>
+                        <span class="stat-label-mini">Kelas</span>
+                    </div>
+                </div>
+            </div>
+        </aside>

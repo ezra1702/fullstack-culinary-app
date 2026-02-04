@@ -9,6 +9,19 @@ def chef(request):
 def dashboard(request):
     return render(request, 'chef/dashboard.html')
 
+def  pengaturan(request):
+    return render(request, 'chef/pengaturan.html')
+
+def kelas(request):
+    return render(request, 'chef/kelas.html')
+
+def  murid(request):
+    return render(request, 'chef/murid.html')
+
+def statistik(request):
+    return render(request, 'chef/statistik.html')
+def logoutChef(request):
+    pass
 def register_chef(request):
     """Proses pendaftaran Chef: Tanpa Verifikasi (Auto-Active)"""
     if request.method == "POST":

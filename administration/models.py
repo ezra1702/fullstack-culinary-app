@@ -36,9 +36,9 @@ class Kelas(models.Model):
     judul = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True) 
     thumbnail = models.ImageField(upload_to='kelas/thumbnails/')
-    deskripsi_singkat = models.TextField(max_length=500)
+    deskripsi = models.TextField(max_length=500)
     deskripsi_lengkap = models.TextField()
-    
+    BasicPremium = models.BooleanField(default=False)
     kategori = models.CharField(max_length=100)
     level = models.CharField(max_length=20, choices=[('Beginner', 'Beginner'), ('Intermediate', 'Intermediate'), ('Advanced', 'Advanced')])
     
@@ -47,7 +47,8 @@ class Kelas(models.Model):
     # Penjadwalan
     tanggal_mulai = models.DateField(default=timezone.now)
     total_durasi_jam = models.PositiveIntegerField(default=0)
-    
+    tanggal_selesai = models.DateField(null=True, blank=True)
+
     is_published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

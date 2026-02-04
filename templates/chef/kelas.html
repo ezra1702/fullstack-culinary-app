@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas Saya - Chef Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/chef/kelas.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        {% include 'snippets/chef/sidebar.html' %}
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- List View (Default) -->
+            <div id="list-view">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Kelas Saya</h1>
+                    <button class="btn btn-primary" id="btn-tambah-kelas">
+                        <i class="fas fa-plus"></i> Tambah Kelas Baru
+                    </button>
+                </div>
+                
+                <!-- Filter and Search -->
+                <div class="filters-container">
+                    <div class="filters-row">
+                        <div class="search-box">
+                            <input type="text" class="search-input" id="search-input" placeholder="Cari kelas berdasarkan judul, deskripsi, atau kategori...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Kategori</label>
+                            <select class="filter-select" id="filter-kategori">
+                                <option value="">Semua Kategori</option>
+                                <option value="masakan">Masakan</option>
+                                <option value="kue">Kue & Baking</option>
+                                <option value="minuman">Minuman</option>
+                                <option value="dasar">Dasar Memasak</option>
+                                <option value="spesialis">Spesialis</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Level</label>
+                            <select class="filter-select" id="filter-level">
+                                <option value="">Semua Level</option>
+                                <option value="pemula">Pemula</option>
+                                <option value="menengah">Menengah</option>
+                                <option value="mahir">Mahir</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Status</label>
+                            <select class="filter-select" id="filter-status">
+                                <option value="">Semua Status</option>
+                                <option value="draft">Draft</option>
+                                <option value="scheduled">Dijadwalkan</option>
+                                <option value="published">Berjalan</option>
+                                <option value="archived">Selesai</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabs -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="tab-all">Semua Kelas</button>
+                        <button class="tab-btn" data-tab="tab-active">Kelas Aktif</button>
+                        <button class="tab-btn" data-tab="tab-draft">Draft</button>
+                        <button class="tab-btn" data-tab="tab-archived">Diarsipkan</button>
+                    </div>
+                    
+                    <!-- Tab: Semua Kelas -->
+                    <div class="tab-content active" id="tab-all">
+                        <div class="classes-grid" id="grid-all-classes">
+                            <!-- Cards akan diisi oleh JavaScript -->
+                        </div>
+                        
+                        <div class="empty-state-large d-none" id="empty-all">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Belum Ada Kelas</h3>
+                            <p>Mulai dengan membuat kelas pertama Anda. Klik tombol "Tambah Kelas Baru" untuk memulai perjalanan mengajar Anda.</p>
+                            <button class="btn btn-primary" id="btn-empty-add">
+                                <i class="fas fa-plus"></i> Tambah Kelas Baru
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab: Kelas Aktif -->
+                    <div class="tab-content" id="tab-active">
+                        <div class="classes-grid" id="grid-active-classes">
+                            <!-- Cards akan diisi oleh JavaScript -->
+                        </div>
+                        
+                        <div class="empty-state-large d-none" id="empty-active">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <h3>Tidak Ada Kelas Aktif</h3>
+                            <p>Tidak ada kelas yang sedang berjalan saat ini. Mulai kelas baru atau aktifkan kelas draft.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab: Draft -->
+                    <div class="tab-content" id="tab-draft">
+                        <div class="classes-grid" id="grid-draft-classes">
+                            <!-- Cards akan diisi oleh JavaScript -->
+                        </div>
+                        
+                        <div class="empty-state-large d-none" id="empty-draft">
+                            <i class="fas fa-edit"></i>
+                            <h3>Tidak Ada Draft Kelas</h3>
+                            <p>Belum ada kelas dalam status draft. Buat kelas baru dan simpan sebagai draft untuk diedit nanti.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab: Diarsipkan -->
+                    <div class="tab-content" id="tab-archived">
+                        <div class="classes-grid" id="grid-archived-classes">
+                            <!-- Cards akan diisi oleh JavaScript -->
+                        </div>
+                        
+                        <div class="empty-state-large d-none" id="empty-archived">
+                            <i class="fas fa-archive"></i>
+                            <h3>Tidak Ada Kelas Diarsipkan</h3>
+                            <p>Tidak ada kelas yang diarsipkan. Kelas yang sudah selesai dapat diarsipkan untuk menjaga kerapian daftar kelas Anda.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail View (Hidden by default) -->
+            <div id="detail-view" class="d-none">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="#" id="back-to-list"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Kelas</a>
+                </div>
+
+                <!-- Class Detail Container -->
+                <div class="class-detail-container">
+                    <div class="class-detail-header">
+                        <img src="" alt="Class Thumbnail" class="class-detail-thumbnail" id="detail-thumbnail">
+                        <div class="class-detail-overlay">
+                            <h1 class="class-detail-title" id="detail-title">Masakan Italia Dasar</h1>
+                            <div class="class-detail-meta" id="detail-meta-badges">
+                                <!-- Badges akan diisi oleh JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="class-detail-content">
+                        <!-- Info Grid -->
+                        <div class="class-info-grid" id="detail-info-grid">
+                            <!-- Info items akan diisi oleh JavaScript -->
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="class-card-actions" style="margin-bottom: 40px;">
+                            <button class="btn btn-primary" id="detail-btn-edit">
+                                <i class="fas fa-edit"></i> Edit Kelas
+                            </button>
+                            <button class="btn btn-outline" id="detail-btn-delete">
+                                <i class="fas fa-trash"></i> Hapus Kelas
+                            </button>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="class-section">
+                            <h2 class="class-section-title">
+                                <i class="fas fa-align-left"></i>
+                                Deskripsi Kelas
+                            </h2>
+                            <p class="class-description-text" id="detail-description"></p>
+                        </div>
+
+                        <!-- Curriculum -->
+                        <div class="class-section">
+                            <h2 class="class-section-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                Kurikulum Kelas
+                                <span class="class-category-badge" id="detail-curriculum-count">0 Materi</span>
+                            </h2>
+                            <div class="curriculum-list" id="detail-curriculum">
+                                <!-- Curriculum items akan diisi oleh JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Students -->
+                        <div class="class-section">
+                            <h2 class="class-section-title">
+                                <i class="fas fa-users"></i>
+                                Anggota Kelas
+                                <span class="class-category-badge" id="detail-students-count">0 Murid</span>
+                            </h2>
+                            <div class="students-table-container">
+                                <table class="students-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Murid</th>
+                                            <th>Email</th>
+                                            <th>Bergabung</th>
+                                            <th>Progress</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detail-students-table">
+                                        <!-- Student rows akan diisi oleh JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/chef/kelas.js' %}"></script>
+</body>
+</html>
