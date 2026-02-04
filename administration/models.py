@@ -77,7 +77,7 @@ class ChefProfile(models.Model):
     no_ktp = models.CharField(max_length=16, unique=True)
     foto_ktp = models.ImageField(upload_to='chef/verifikasi/')
     file_cv = models.FileField(upload_to='chef/cv/')
-    
+    pendapatan = models.PositiveIntegerField(default=0)
     # Portfolio Profesional
     pendidikan_json = models.JSONField(default=list, blank=True) # ["Culinary Arts School"]
     spesialisasi_json = models.JSONField(default=list, blank=True) # ["Pastry", "Japanese"]
