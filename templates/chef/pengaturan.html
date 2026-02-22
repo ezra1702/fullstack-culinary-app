@@ -1,0 +1,673 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengaturan — Chef Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/chef/pengaturan.css' %}">
+</head>
+<body>
+<div class="dashboard-container">
+
+<!-- ─────────────── SIDEBAR ─────────────── -->
+{% include "snippets/chef/sidebar.html" %}
+
+<!-- ─────────────── MAIN ─────────────── -->
+<main class="main-content">
+
+  <div class="settings-header">
+    <div class="sh-inner">
+      <div>
+        <h1><i class="fas fa-cog"></i> Pengaturan Chef</h1>
+        <p>Kelola profil profesional, portofolio, dan keamanan akun Anda</p>
+      </div>
+      <div class="premium-pill"><i class="fas fa-crown"></i> Premium Chef</div>
+    </div>
+  </div>
+
+  <div class="settings-layout">
+
+    <!-- Side Nav -->
+    <nav class="settings-sidenav">
+      <div class="snav-label">Akun</div>
+      <button class="snav-item active" onclick="switchTab('profil',this)"><i class="fas fa-user"></i> Profil Pribadi</button>
+      <button class="snav-item" onclick="switchTab('keamanan',this)"><i class="fas fa-shield-alt"></i> Keamanan</button>
+      <div class="snav-divider"></div>
+      <div class="snav-label">Profesional</div>
+      <button class="snav-item" onclick="switchTab('portofolio',this)"><i class="fas fa-briefcase"></i> Portofolio</button>
+      <button class="snav-item" onclick="switchTab('dokumen',this)"><i class="fas fa-id-card"></i> Dokumen & KTP</button>
+      <button class="snav-item" onclick="switchTab('sosmed',this)"><i class="fas fa-share-nodes"></i> Media Sosial</button>
+      <div class="snav-divider"></div>
+      <div class="snav-label">Lainnya</div>
+      <button class="snav-item" onclick="switchTab('notifikasi',this)"><i class="fas fa-bell"></i> Notifikasi</button>
+      <button class="snav-item" onclick="switchTab('statistik',this)"><i class="fas fa-chart-bar"></i> Statistik Saya</button>
+      <div class="snav-divider"></div>
+      <button class="snav-item danger" onclick="confirmLogout(event)"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </nav>
+
+    <div class="settings-content">
+
+      <!-- ══════════════════════════════════
+           TAB: PROFIL PRIBADI
+      ══════════════════════════════════ -->
+      <div class="settings-section active" id="tab-profil">
+        <div class="section-head">
+          <div class="sh-icon"><i class="fas fa-user"></i></div>
+          <div><h2>Profil Pribadi</h2><p>Data identitas akun Anda</p></div>
+        </div>
+        <div class="section-body">
+
+          <div class="sub-title"><i class="fas fa-camera"></i> Foto Profil</div>
+          <div class="avatar-upload-area" onclick="document.getElementById('av-input').click()">
+            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80"
+                 class="current-avatar" id="av-preview" alt="avatar">
+            <div class="avatar-info">
+              <h4>Ganti Foto Profil</h4>
+              <p>JPG / PNG, maks. 2MB — rekomendasi 400×400px</p>
+              <button class="btn btn-outline btn-sm" type="button"><i class="fas fa-upload"></i> Pilih Foto</button>
+            </div>
+            <input type="file" id="av-input" accept="image/*" hidden onchange="previewAvatar(this)">
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title"><i class="fas fa-info-circle"></i> Informasi Dasar</div>
+
+          <div class="form-grid g2">
+            <div class="form-group">
+              <label class="form-label">Nama Depan <span class="req">*</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-user icon"></i><input type="text" class="form-control" value="Budi" oninput="markDirty()"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama Belakang</label>
+              <div class="input-icon-wrap"><i class="fas fa-user icon"></i><input type="text" class="form-control" value="Santoso" oninput="markDirty()"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email <span class="lbl-tag tag-ro">Read-only</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-envelope icon"></i><input type="email" class="form-control readonly" value="chef.budi@example.com" readonly></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">No. Telepon <span class="req">*</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-phone icon"></i><input type="tel" class="form-control" value="+62 812-3456-7890" oninput="markDirty()"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role <span class="lbl-tag tag-ro">Auto</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-shield icon"></i><input type="text" class="form-control readonly" value="chef" readonly></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 0">
+                <span class="status-badge online"><span class="status-dot"></span> Online</span>
+                <span style="font-size:.76rem;color:var(--text-lt)">Terakhir aktif: hari ini 14:32</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Bergabung Sejak <span class="lbl-tag tag-ro">Auto</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-calendar icon"></i><input type="text" class="form-control readonly" value="12 Januari 2023" readonly></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Total Waktu Online <span class="lbl-tag tag-ro">Auto</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-clock icon"></i><input type="text" class="form-control readonly" value="347 jam 22 menit" readonly></div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:flex-end;gap:10px">
+            <button class="btn btn-outline" onclick="resetForm()"><i class="fas fa-undo"></i> Reset</button>
+            <button class="btn btn-primary" onclick="saveSection('Profil Pribadi')"><i class="fas fa-save"></i> Simpan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           TAB: KEAMANAN
+      ══════════════════════════════════ -->
+      <div class="settings-section" id="tab-keamanan">
+        <div class="section-head">
+          <div class="sh-icon" style="background:#dc3545"><i class="fas fa-shield-alt"></i></div>
+          <div><h2>Keamanan Akun</h2><p>Password dan sesi login</p></div>
+        </div>
+        <div class="section-body">
+          <div class="info-box info"><i class="fas fa-info-circle"></i><span>Password dienkripsi PBKDF2-SHA256. Gunakan kombinasi huruf besar, kecil, angka, dan simbol.</span></div>
+          <div class="sub-title"><i class="fas fa-key"></i> Ganti Password</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Password Lama <span class="req">*</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-lock icon"></i><input type="password" class="form-control" placeholder="Password lama" oninput="markDirty()"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password Baru <span class="req">*</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-lock icon"></i><input type="password" id="new-pwd" class="form-control" placeholder="Min. 8 karakter" oninput="checkStrength(this.value)"></div>
+              <div style="margin-top:6px">
+                <div class="pwd-bars"><div class="pwd-bar" id="pb1"></div><div class="pwd-bar" id="pb2"></div><div class="pwd-bar" id="pb3"></div><div class="pwd-bar" id="pb4"></div></div>
+                <span class="pwd-text" id="pwd-lbl" style="color:var(--text-ltr)">Masukkan password baru</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Konfirmasi Password Baru <span class="req">*</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-lock icon"></i><input type="password" id="conf-pwd" class="form-control" placeholder="Ulangi password" oninput="checkConfirm()"></div>
+              <span id="conf-msg" style="font-size:.73rem;font-weight:600;margin-top:3px"></span>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Semua sesi lain diakhiri.','success')"><i class="fas fa-door-open"></i> Keluar Semua Sesi</button>
+            <div style="display:flex;gap:10px">
+              <button class="btn btn-outline" onclick="resetForm()"><i class="fas fa-undo"></i> Batal</button>
+              <button class="btn btn-primary" onclick="saveSection('Password')"><i class="fas fa-save"></i> Simpan Password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           TAB: PORTOFOLIO
+           ★ PENDIDIKAN & SPESIALISASI BARU
+      ══════════════════════════════════ -->
+      <div class="settings-section" id="tab-portofolio">
+        <div class="section-head">
+          <div class="sh-icon" style="background:#17a2b8"><i class="fas fa-briefcase"></i></div>
+          <div><h2>Portofolio Profesional</h2><p>Pendidikan, spesialisasi, dan riwayat kerja</p></div>
+        </div>
+        <div class="section-body">
+
+          <!-- ══ PENDIDIKAN ══ -->
+          <div class="sub-title"><i class="fas fa-graduation-cap"></i> Pendidikan <span style="font-size:.72rem;font-weight:400;color:var(--text-lt)">(pendidikan_json)</span></div>
+
+          <div class="edu-list" id="edu-list">
+            <!-- Card 1 -->
+            <div class="edu-card">
+              <div class="edu-card-body">
+                <div class="edu-card-icon"><i class="fas fa-university"></i></div>
+                <div class="edu-card-info">
+                  <div class="edu-card-institusi">Culinary Arts School — Jakarta</div>
+                  <div class="edu-card-detail">
+                    <span><i class="fas fa-award" style="margin-right:3px;color:var(--primary)"></i>Diploma Seni Kuliner</span>
+                    <span class="edu-badge"><i class="fas fa-calendar-alt"></i> 2012 – 2015</span>
+                  </div>
+                </div>
+              </div>
+              <div class="edu-card-actions">
+                <button class="btn-action-sm btn-edit-card" onclick="toggleEduEdit(this)"><i class="fas fa-pen"></i> Edit</button>
+                <button class="btn-action-sm btn-del-card" onclick="deleteEduCard(this)"><i class="fas fa-trash"></i> Hapus</button>
+              </div>
+              <div class="edu-edit-form">
+                <div class="form-grid g2">
+                  <div class="form-group full">
+                    <label class="form-label">Nama Institusi <span class="req">*</span></label>
+                    <input type="text" class="form-control" value="Culinary Arts School — Jakarta">
+                  </div>
+                  <div class="form-group full">
+                    <label class="form-label">Jurusan / Program Studi</label>
+                    <input type="text" class="form-control" value="Diploma Seni Kuliner">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Tahun Masuk</label>
+                    <input type="number" class="form-control" value="2012" min="1980" max="2030">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Tahun Lulus</label>
+                    <input type="number" class="form-control" value="2015" min="1980" max="2030">
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px">
+                  <button class="btn btn-primary btn-sm" onclick="saveEduEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-sm" onclick="toggleEduEdit(this)"><i class="fas fa-times"></i> Batal</button>
+                </div>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="edu-card">
+              <div class="edu-card-body">
+                <div class="edu-card-icon"><i class="fas fa-university"></i></div>
+                <div class="edu-card-info">
+                  <div class="edu-card-institusi">Le Cordon Bleu — Online</div>
+                  <div class="edu-card-detail">
+                    <span><i class="fas fa-award" style="margin-right:3px;color:var(--primary)"></i>Sertifikat Pastry & Bakery</span>
+                    <span class="edu-badge"><i class="fas fa-calendar-alt"></i> 2020 – 2021</span>
+                  </div>
+                </div>
+              </div>
+              <div class="edu-card-actions">
+                <button class="btn-action-sm btn-edit-card" onclick="toggleEduEdit(this)"><i class="fas fa-pen"></i> Edit</button>
+                <button class="btn-action-sm btn-del-card" onclick="deleteEduCard(this)"><i class="fas fa-trash"></i> Hapus</button>
+              </div>
+              <div class="edu-edit-form">
+                <div class="form-grid g2">
+                  <div class="form-group full">
+                    <label class="form-label">Nama Institusi <span class="req">*</span></label>
+                    <input type="text" class="form-control" value="Le Cordon Bleu — Online">
+                  </div>
+                  <div class="form-group full">
+                    <label class="form-label">Jurusan / Program Studi</label>
+                    <input type="text" class="form-control" value="Sertifikat Pastry & Bakery">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Tahun Masuk</label>
+                    <input type="number" class="form-control" value="2020" min="1980" max="2030">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Tahun Lulus</label>
+                    <input type="number" class="form-control" value="2021" min="1980" max="2030">
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px">
+                  <button class="btn btn-primary btn-sm" onclick="saveEduEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-sm" onclick="toggleEduEdit(this)"><i class="fas fa-times"></i> Batal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Pendidikan Form -->
+          <div class="add-form-box" id="edu-add-form">
+            <div class="af-title"><i class="fas fa-plus-circle"></i> Tambah Pendidikan Baru</div>
+            <div class="form-grid g2">
+              <div class="form-group full">
+                <label class="form-label">Nama Institusi <span class="req">*</span></label>
+                <input type="text" id="edu-nama" class="form-control" placeholder="cth: Universitas Indonesia, SMK Tata Boga...">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Jurusan / Program Studi</label>
+                <input type="text" id="edu-jurusan" class="form-control" placeholder="cth: Diploma Seni Kuliner, Sertifikat Pastry...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tahun Masuk</label>
+                <input type="number" id="edu-masuk" class="form-control" placeholder="2018" min="1980" max="2030">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tahun Lulus <small style="font-weight:400;color:var(--text-lt)">(kosong = sekarang)</small></label>
+                <input type="number" id="edu-lulus" class="form-control" placeholder="2022" min="1980" max="2030">
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn btn-primary btn-sm" onclick="addEdu()"><i class="fas fa-plus"></i> Tambah</button>
+              <button class="btn btn-outline btn-sm" onclick="toggleEduForm()"><i class="fas fa-times"></i> Batal</button>
+            </div>
+          </div>
+
+          <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="toggleEduForm()">
+            <i class="fas fa-plus-circle"></i> Tambah Pendidikan
+          </button>
+
+          <div class="divider"></div>
+
+          <!-- ══ SPESIALISASI ══ -->
+          <div class="sub-title"><i class="fas fa-utensils"></i> Spesialisasi <span style="font-size:.72rem;font-weight:400;color:var(--text-lt)">(spesialisasi_json)</span></div>
+
+          <div class="info-box info" style="margin-bottom:14px">
+            <i class="fas fa-lightbulb"></i>
+            <span>Tambahkan keahlian memasak Anda beserta tingkat kemahiran dan pengalaman. Klik ikon pensil untuk mengedit langsung di kartu.</span>
+          </div>
+
+          <div class="spec-grid" id="spec-grid">
+            <!-- Spec Card 1 -->
+            <div class="spec-card">
+              <div class="spec-card-top">
+                <div class="spec-icon-wrap" style="background:linear-gradient(135deg,#e879f9,#a855f7)"><i class="fas fa-cookie-bite"></i></div>
+                <div class="spec-card-menu">
+                  <button class="spec-card-btn edit" onclick="toggleSpecEdit(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                  <button class="spec-card-btn del" onclick="deleteSpecCard(this)" title="Hapus"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="spec-nama">Pastry & Bakery</div>
+              <div class="spec-meta">
+                <div class="spec-level">
+                  <div class="level-dots">
+                    <div class="level-dot filled expert"></div>
+                    <div class="level-dot filled expert"></div>
+                    <div class="level-dot filled expert"></div>
+                  </div>
+                  <span style="font-size:.73rem;color:var(--primary);font-weight:700">Ahli</span>
+                </div>
+                <div class="spec-exp"><i class="fas fa-clock"></i> 8 tahun pengalaman</div>
+              </div>
+              <div class="spec-edit-form">
+                <div class="sef-title"><i class="fas fa-pen"></i> Edit Spesialisasi</div>
+                <input type="text" class="form-control" value="Pastry & Bakery" placeholder="Nama spesialisasi">
+                <select class="form-control">
+                  <option value="beginner">Pemula</option>
+                  <option value="intermediate">Menengah</option>
+                  <option value="expert" selected>Ahli</option>
+                </select>
+                <input type="number" class="form-control" value="8" placeholder="Tahun pengalaman" min="0" max="50">
+                <div class="spec-edit-actions">
+                  <button class="btn btn-primary btn-xs" onclick="saveSpecEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-xs" onclick="toggleSpecEdit(this)"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+            </div>
+            <!-- Spec Card 2 -->
+            <div class="spec-card">
+              <div class="spec-card-top">
+                <div class="spec-icon-wrap" style="background:linear-gradient(135deg,#f87171,#dc2626)"><i class="fas fa-fish"></i></div>
+                <div class="spec-card-menu">
+                  <button class="spec-card-btn edit" onclick="toggleSpecEdit(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                  <button class="spec-card-btn del" onclick="deleteSpecCard(this)" title="Hapus"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="spec-nama">Japanese Cuisine</div>
+              <div class="spec-meta">
+                <div class="spec-level">
+                  <div class="level-dots">
+                    <div class="level-dot filled intermediate"></div>
+                    <div class="level-dot filled intermediate"></div>
+                    <div class="level-dot"></div>
+                  </div>
+                  <span style="font-size:.73rem;color:var(--warning);font-weight:700">Menengah</span>
+                </div>
+                <div class="spec-exp"><i class="fas fa-clock"></i> 4 tahun pengalaman</div>
+              </div>
+              <div class="spec-edit-form">
+                <div class="sef-title"><i class="fas fa-pen"></i> Edit Spesialisasi</div>
+                <input type="text" class="form-control" value="Japanese Cuisine" placeholder="Nama spesialisasi">
+                <select class="form-control">
+                  <option value="beginner">Pemula</option>
+                  <option value="intermediate" selected>Menengah</option>
+                  <option value="expert">Ahli</option>
+                </select>
+                <input type="number" class="form-control" value="4" placeholder="Tahun pengalaman" min="0" max="50">
+                <div class="spec-edit-actions">
+                  <button class="btn btn-primary btn-xs" onclick="saveSpecEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-xs" onclick="toggleSpecEdit(this)"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+            </div>
+            <!-- Spec Card 3 -->
+            <div class="spec-card">
+              <div class="spec-card-top">
+                <div class="spec-icon-wrap" style="background:linear-gradient(135deg,#34d399,#059669)"><i class="fas fa-leaf"></i></div>
+                <div class="spec-card-menu">
+                  <button class="spec-card-btn edit" onclick="toggleSpecEdit(this)" title="Edit"><i class="fas fa-pen"></i></button>
+                  <button class="spec-card-btn del" onclick="deleteSpecCard(this)" title="Hapus"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="spec-nama">Masakan Padang</div>
+              <div class="spec-meta">
+                <div class="spec-level">
+                  <div class="level-dots">
+                    <div class="level-dot filled expert"></div>
+                    <div class="level-dot filled expert"></div>
+                    <div class="level-dot filled expert"></div>
+                  </div>
+                  <span style="font-size:.73rem;color:var(--primary);font-weight:700">Ahli</span>
+                </div>
+                <div class="spec-exp"><i class="fas fa-clock"></i> 10 tahun pengalaman</div>
+              </div>
+              <div class="spec-edit-form">
+                <div class="sef-title"><i class="fas fa-pen"></i> Edit Spesialisasi</div>
+                <input type="text" class="form-control" value="Masakan Padang" placeholder="Nama spesialisasi">
+                <select class="form-control">
+                  <option value="beginner">Pemula</option>
+                  <option value="intermediate">Menengah</option>
+                  <option value="expert" selected>Ahli</option>
+                </select>
+                <input type="number" class="form-control" value="10" placeholder="Tahun pengalaman" min="0" max="50">
+                <div class="spec-edit-actions">
+                  <button class="btn btn-primary btn-xs" onclick="saveSpecEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-xs" onclick="toggleSpecEdit(this)"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Spesialisasi Form -->
+          <div class="spec-add-form" id="spec-add-form">
+            <div class="af-title"><i class="fas fa-plus-circle"></i> Tambah Spesialisasi Baru</div>
+            <div class="form-grid g2">
+              <div class="form-group full">
+                <label class="form-label">Nama Spesialisasi <span class="req">*</span></label>
+                <input type="text" id="spec-nama-inp" class="form-control" placeholder="cth: Pastry, Sushi, BBQ, Masakan Padang...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tingkat Kemahiran</label>
+                <select id="spec-level-inp" class="form-control">
+                  <option value="beginner">🟢 Pemula</option>
+                  <option value="intermediate" selected>🟡 Menengah</option>
+                  <option value="expert">🔵 Ahli</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tahun Pengalaman</label>
+                <input type="number" id="spec-exp-inp" class="form-control" placeholder="cth: 5" min="0" max="50">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Ikon (emoji / pilih)</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap" id="icon-picker">
+                  <button type="button" class="icon-opt active" data-icon="fa-utensils" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--primary);border-radius:8px;background:var(--primary-bg);cursor:pointer;font-size:1rem"><i class="fas fa-utensils"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-fire" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-fire"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-cookie-bite" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-cookie-bite"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-fish" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-fish"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-leaf" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-leaf"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-pepper-hot" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-pepper-hot"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-birthday-cake" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-birthday-cake"></i></button>
+                  <button type="button" class="icon-opt" data-icon="fa-drumstick-bite" onclick="selectIcon(this)" style="padding:8px 12px;border:2px solid var(--gray-md);border-radius:8px;background:var(--gray-lt);cursor:pointer;font-size:1rem"><i class="fas fa-drumstick-bite"></i></button>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn btn-primary btn-sm" onclick="addSpec()"><i class="fas fa-plus"></i> Tambah Spesialisasi</button>
+              <button class="btn btn-outline btn-sm" onclick="toggleSpecForm()"><i class="fas fa-times"></i> Batal</button>
+            </div>
+          </div>
+
+          <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="toggleSpecForm()">
+            <i class="fas fa-plus-circle"></i> Tambah Spesialisasi
+          </button>
+
+          <div class="divider"></div>
+
+          <!-- ══ RIWAYAT KERJA ══ -->
+          <div class="sub-title"><i class="fas fa-building"></i> Riwayat Kerja <span style="font-size:.72rem;font-weight:400;color:var(--text-lt)">(riwayat_kerja_json)</span></div>
+
+          <div class="work-list" id="work-list">
+            <div class="work-card">
+              <div class="work-card-body">
+                <div class="work-icon"><i class="fas fa-utensils"></i></div>
+                <div class="work-info">
+                  <div class="work-posisi">Head Chef</div>
+                  <div class="work-tempat">Hotel Mulia — Jakarta (2019 – 2023)</div>
+                </div>
+              </div>
+              <div class="work-card-actions">
+                <button class="btn-action-sm btn-edit-card" onclick="toggleWorkEdit(this)"><i class="fas fa-pen"></i> Edit</button>
+                <button class="btn-action-sm btn-del-card" onclick="deleteWorkCard(this)"><i class="fas fa-trash"></i> Hapus</button>
+              </div>
+              <div class="work-edit-form">
+                <div class="form-grid g2">
+                  <div class="form-group"><label class="form-label">Posisi <span class="req">*</span></label><input type="text" class="form-control" value="Head Chef"></div>
+                  <div class="form-group"><label class="form-label">Tempat <span class="req">*</span></label><input type="text" class="form-control" value="Hotel Mulia — Jakarta"></div>
+                  <div class="form-group"><label class="form-label">Tahun Mulai</label><input type="number" class="form-control" value="2019" min="1980" max="2030"></div>
+                  <div class="form-group"><label class="form-label">Tahun Selesai</label><input type="number" class="form-control" value="2023" min="1980" max="2030" placeholder="Kosong = Sekarang"></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px">
+                  <button class="btn btn-primary btn-sm" onclick="saveWorkEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-sm" onclick="toggleWorkEdit(this)"><i class="fas fa-times"></i> Batal</button>
+                </div>
+              </div>
+            </div>
+            <div class="work-card">
+              <div class="work-card-body">
+                <div class="work-icon"><i class="fas fa-utensils"></i></div>
+                <div class="work-info">
+                  <div class="work-posisi">Sous Chef</div>
+                  <div class="work-tempat">Restaurant Le Jardin — Bali (2016 – 2019)</div>
+                </div>
+              </div>
+              <div class="work-card-actions">
+                <button class="btn-action-sm btn-edit-card" onclick="toggleWorkEdit(this)"><i class="fas fa-pen"></i> Edit</button>
+                <button class="btn-action-sm btn-del-card" onclick="deleteWorkCard(this)"><i class="fas fa-trash"></i> Hapus</button>
+              </div>
+              <div class="work-edit-form">
+                <div class="form-grid g2">
+                  <div class="form-group"><label class="form-label">Posisi <span class="req">*</span></label><input type="text" class="form-control" value="Sous Chef"></div>
+                  <div class="form-group"><label class="form-label">Tempat <span class="req">*</span></label><input type="text" class="form-control" value="Restaurant Le Jardin — Bali"></div>
+                  <div class="form-group"><label class="form-label">Tahun Mulai</label><input type="number" class="form-control" value="2016"></div>
+                  <div class="form-group"><label class="form-label">Tahun Selesai</label><input type="number" class="form-control" value="2019"></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px">
+                  <button class="btn btn-primary btn-sm" onclick="saveWorkEdit(this)"><i class="fas fa-check"></i> Simpan</button>
+                  <button class="btn btn-outline btn-sm" onclick="toggleWorkEdit(this)"><i class="fas fa-times"></i> Batal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="add-form-box" id="work-add-form">
+            <div class="af-title"><i class="fas fa-plus-circle"></i> Tambah Riwayat Kerja</div>
+            <div class="form-grid g2">
+              <div class="form-group"><label class="form-label">Posisi / Jabatan <span class="req">*</span></label><input type="text" id="wk-posisi" class="form-control" placeholder="cth: Head Chef"></div>
+              <div class="form-group"><label class="form-label">Tempat / Perusahaan <span class="req">*</span></label><input type="text" id="wk-tempat" class="form-control" placeholder="cth: Hotel X — Jakarta"></div>
+              <div class="form-group"><label class="form-label">Tahun Mulai</label><input type="number" id="wk-mulai" class="form-control" placeholder="2018"></div>
+              <div class="form-group"><label class="form-label">Tahun Selesai</label><input type="number" id="wk-selesai" class="form-control" placeholder="Kosong = Sekarang"></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn btn-primary btn-sm" onclick="addWork()"><i class="fas fa-plus"></i> Tambah</button>
+              <button class="btn btn-outline btn-sm" onclick="toggleWorkForm()"><i class="fas fa-times"></i> Batal</button>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="toggleWorkForm()"><i class="fas fa-plus-circle"></i> Tambah Riwayat Kerja</button>
+
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:flex-end;gap:10px">
+            <button class="btn btn-outline" onclick="resetForm()"><i class="fas fa-undo"></i> Batal</button>
+            <button class="btn btn-primary" onclick="saveSection('Portofolio')"><i class="fas fa-save"></i> Simpan Portofolio</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           TAB: DOKUMEN & KTP
+      ══════════════════════════════════ -->
+      <div class="settings-section" id="tab-dokumen">
+        <div class="section-head">
+          <div class="sh-icon" style="background:#ffc107;color:#333"><i class="fas fa-id-card"></i></div>
+          <div><h2>Dokumen & Verifikasi</h2><p>KTP, Foto KTP, dan CV untuk verifikasi akun Chef</p></div>
+        </div>
+        <div class="section-body">
+          <div class="verify-card">
+            <div class="vc-icon vc-pend"><i class="fas fa-clock"></i></div>
+            <div class="vc-info"><h4>Status: Menunggu Verifikasi</h4><p>Dokumen Anda sedang ditinjau tim admin. Estimasi 1–3 hari kerja.</p></div>
+            <span class="lbl-tag tag-pend" style="padding:6px 14px;font-size:.78rem">PENDING</span>
+          </div>
+          <div class="info-box warning"><i class="fas fa-exclamation-triangle"></i><span>Pastikan foto KTP jelas dan tidak blur. File CV maksimal 5MB format PDF.</span></div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Nomor KTP (NIK) <span class="req">*</span> <span class="lbl-tag tag-pend">Pending</span></label>
+              <div class="input-icon-wrap"><i class="fas fa-id-badge icon"></i><input type="text" class="form-control" maxlength="16" placeholder="16 digit NIK" oninput="this.value=this.value.replace(/\D/g,'').slice(0,16);markDirty()"></div>
+              <span style="font-size:.72rem;color:var(--text-ltr)">Contoh: 3175XXXXXXXXXXXX (16 digit, unik)</span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Foto KTP <span class="req">*</span></label>
+              <div class="file-upload-box" id="ktp-box"><input type="file" accept="image/*" onchange="handleFile(this,'ktp-prev','ktp-box')"><i class="fas fa-id-card"></i><div class="fu-title">Upload Foto KTP</div><div class="fu-sub">JPG atau PNG, maks. 5MB</div></div>
+              <div class="file-preview" id="ktp-prev"><i class="fas fa-image" style="color:var(--primary)"></i><span class="fp-name">ktp_chef_budi.jpg</span><span class="fp-size">2.4 MB</span><button class="fp-remove" onclick="removeFile('ktp-prev','ktp-box')"><i class="fas fa-times"></i></button></div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">File CV / Resume <span class="req">*</span></label>
+              <div class="file-upload-box" id="cv-box"><input type="file" accept=".pdf,.doc,.docx" onchange="handleFile(this,'cv-prev','cv-box')"><i class="fas fa-file-pdf"></i><div class="fu-title">Upload CV / Resume</div><div class="fu-sub">PDF, DOC, DOCX — maks. 5MB</div></div>
+              <div class="file-preview" id="cv-prev"><i class="fas fa-file-pdf" style="color:#dc3545"></i><span class="fp-name">CV_Chef_Budi_Santoso.pdf</span><span class="fp-size">1.1 MB</span><button class="fp-remove" onclick="removeFile('cv-prev','cv-box')"><i class="fas fa-times"></i></button></div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:flex-end;gap:10px">
+            <button class="btn btn-outline" onclick="resetForm()"><i class="fas fa-undo"></i> Batal</button>
+            <button class="btn btn-primary" onclick="saveSection('Dokumen')"><i class="fas fa-upload"></i> Kirim Dokumen</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           TAB: MEDIA SOSIAL
+      ══════════════════════════════════ -->
+      <div class="settings-section" id="tab-sosmed">
+        <div class="section-head">
+          <div class="sh-icon" style="background:linear-gradient(135deg,#f09433,#bc1888)"><i class="fas fa-share-nodes"></i></div>
+          <div><h2>Media Sosial</h2><p>Link sosial media untuk profil publik Chef Anda (link_sosmed)</p></div>
+        </div>
+        <div class="section-body">
+          <div class="info-box info"><i class="fas fa-info-circle"></i><span>Link media sosial ditampilkan di halaman profil publik Anda. Kosongkan jika tidak ingin ditampilkan.</span></div>
+          <div class="social-grid">
+            <div class="social-item"><div class="social-icon si-ig"><i class="fab fa-instagram"></i></div><div class="form-group" style="flex:1;margin-bottom:0"><label class="form-label">Instagram</label><input type="url" class="form-control" placeholder="https://instagram.com/username" value="https://instagram.com/chef.budi" oninput="markDirty()"></div></div>
+            <div class="social-item"><div class="social-icon si-yt"><i class="fab fa-youtube"></i></div><div class="form-group" style="flex:1;margin-bottom:0"><label class="form-label">YouTube</label><input type="url" class="form-control" placeholder="https://youtube.com/@channel" oninput="markDirty()"></div></div>
+            <div class="social-item"><div class="social-icon si-tt"><i class="fab fa-tiktok"></i></div><div class="form-group" style="flex:1;margin-bottom:0"><label class="form-label">TikTok</label><input type="url" class="form-control" placeholder="https://tiktok.com/@username" oninput="markDirty()"></div></div>
+            <div class="social-item"><div class="social-icon si-fb"><i class="fab fa-facebook-f"></i></div><div class="form-group" style="flex:1;margin-bottom:0"><label class="form-label">Facebook</label><input type="url" class="form-control" placeholder="https://facebook.com/page" oninput="markDirty()"></div></div>
+            <div class="social-item"><div class="social-icon si-tw"><i class="fab fa-x-twitter"></i></div><div class="form-group" style="flex:1;margin-bottom:0"><label class="form-label">X / Twitter</label><input type="url" class="form-control" placeholder="https://x.com/username" oninput="markDirty()"></div></div>
+            <div class="social-item"><div class="social-icon si-web"><i class="fas fa-globe"></i></div><div class="form-group" style="flex:1;margin-bottom:0"><label class="form-label">Website Pribadi</label><input type="url" class="form-control" placeholder="https://chefbudi.id" oninput="markDirty()"></div></div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:flex-end;gap:10px">
+            <button class="btn btn-outline" onclick="resetForm()"><i class="fas fa-undo"></i> Batal</button>
+            <button class="btn btn-primary" onclick="saveSection('Media Sosial')"><i class="fas fa-save"></i> Simpan Link</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           TAB: NOTIFIKASI
+      ══════════════════════════════════ -->
+      <div class="settings-section" id="tab-notifikasi">
+        <div class="section-head">
+          <div class="sh-icon" style="background:#28a745"><i class="fas fa-bell"></i></div>
+          <div><h2>Preferensi Notifikasi</h2><p>Atur jenis notifikasi yang ingin Anda terima</p></div>
+        </div>
+        <div class="section-body">
+          <div class="notif-list">
+            <div class="notif-row"><div class="notif-info"><h4><i class="fas fa-user-plus" style="color:var(--primary);margin-right:8px"></i>Murid Baru Mendaftar</h4><p>Notifikasi setiap ada murid baru mendaftar ke kelas Anda</p></div><label class="toggle-sw"><input type="checkbox" checked onchange="markDirty()"><span class="toggle-slider"></span></label></div>
+            <div class="notif-row"><div class="notif-info"><h4><i class="fas fa-star" style="color:#ffc107;margin-right:8px"></i>Review & Rating Baru</h4><p>Notifikasi ketika murid memberikan review untuk kelas Anda</p></div><label class="toggle-sw"><input type="checkbox" checked onchange="markDirty()"><span class="toggle-slider"></span></label></div>
+            <div class="notif-row"><div class="notif-info"><h4><i class="fas fa-money-bill-wave" style="color:var(--success);margin-right:8px"></i>Pendapatan & Payout</h4><p>Notifikasi transaksi, pendapatan baru, dan status payout</p></div><label class="toggle-sw"><input type="checkbox" checked onchange="markDirty()"><span class="toggle-slider"></span></label></div>
+            <div class="notif-row"><div class="notif-info"><h4><i class="fas fa-comment" style="color:var(--info);margin-right:8px"></i>Pesan & Diskusi</h4><p>Notifikasi pesan baru di forum diskusi kelas Anda</p></div><label class="toggle-sw"><input type="checkbox" onchange="markDirty()"><span class="toggle-slider"></span></label></div>
+            <div class="notif-row"><div class="notif-info"><h4><i class="fas fa-bullhorn" style="color:#dc3545;margin-right:8px"></i>Pengumuman Platform</h4><p>Update fitur baru, kebijakan, dan promo dari platform</p></div><label class="toggle-sw"><input type="checkbox" checked onchange="markDirty()"><span class="toggle-slider"></span></label></div>
+            <div class="notif-row"><div class="notif-info"><h4><i class="fas fa-envelope" style="color:var(--text-lt);margin-right:8px"></i>Email Digest Mingguan</h4><p>Rangkuman aktivitas dan statistik mingguan via email</p></div><label class="toggle-sw"><input type="checkbox" onchange="markDirty()"><span class="toggle-slider"></span></label></div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveSection('Notifikasi')"><i class="fas fa-save"></i> Simpan Preferensi</button></div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           TAB: STATISTIK SAYA
+      ══════════════════════════════════ -->
+      <div class="settings-section" id="tab-statistik">
+        <div class="section-head">
+          <div class="sh-icon" style="background:#17a2b8"><i class="fas fa-chart-bar"></i></div>
+          <div><h2>Statistik Akun Saya</h2><p>Data statistik bisnis — read-only, dikelola sistem</p></div>
+        </div>
+        <div class="section-body">
+          <div class="info-box success"><i class="fas fa-check-circle"></i><span>Semua data di bagian ini dikelola otomatis oleh sistem. Tidak dapat diubah secara manual.</span></div>
+          <div class="sub-title"><i class="fas fa-trophy"></i> Statistik Bisnis (ChefProfile)</div>
+          <div class="stat-ro-grid">
+            <div class="stat-ro-card"><div class="stat-ro-val">4.72</div><div class="stat-ro-label">Rating Total</div></div>
+            <div class="stat-ro-card"><div class="stat-ro-val">156</div><div class="stat-ro-label">Total Murid</div></div>
+            <div class="stat-ro-card"><div class="stat-ro-val">Rp 41jt</div><div class="stat-ro-label">Total Pendapatan</div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="sub-title"><i class="fas fa-clock"></i> Aktivitas Akun (create_user)</div>
+          <div class="form-grid g2">
+            <div class="form-group"><label class="form-label">Total Waktu Online <span class="lbl-tag tag-ro">Auto</span></label><div class="input-icon-wrap"><i class="fas fa-clock icon"></i><input type="text" class="form-control readonly" value="347 jam 22 menit" readonly></div></div>
+            <div class="form-group"><label class="form-label">Aktivitas Terakhir <span class="lbl-tag tag-ro">Auto</span></label><div class="input-icon-wrap"><i class="fas fa-calendar-check icon"></i><input type="text" class="form-control readonly" value="22 Februari 2026, 14:32 WIB" readonly></div></div>
+            <div class="form-group"><label class="form-label">Status <span class="lbl-tag tag-ro">Auto</span></label><div class="input-icon-wrap"><i class="fas fa-circle icon" style="color:var(--success)"></i><input type="text" class="form-control readonly" value="online" readonly></div></div>
+            <div class="form-group"><label class="form-label">Bergabung Sejak <span class="lbl-tag tag-ro">Auto</span></label><div class="input-icon-wrap"><i class="fas fa-calendar icon"></i><input type="text" class="form-control readonly" value="12 Januari 2023" readonly></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- settings-content -->
+  </div><!-- settings-layout -->
+</main>
+</div><!-- dashboard-container -->
+
+<!-- Save Bar -->
+<div class="save-bar" id="save-bar">
+  <span class="save-bar-text"><i class="fas fa-circle-dot" style="color:var(--warning)"></i> Ada perubahan yang belum disimpan</span>
+  <button class="btn btn-outline btn-sm" onclick="discardChanges()"><i class="fas fa-undo"></i> Buang</button>
+  <button class="btn btn-primary btn-sm" onclick="saveSection('Perubahan')"><i class="fas fa-save"></i> Simpan</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
+
+<script src="{% static 'js/chef/pengaturan.js' %}"></script>
+</body>
+</html>

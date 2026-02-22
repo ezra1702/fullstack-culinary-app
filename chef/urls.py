@@ -10,5 +10,6 @@ urlpatterns = [
     path('kelas/', views.kelas, name='kelasChef'),
     path('murid/', views.murid, name='muridChef'),
     path('statistik/', views.statistik, name='statistikChef'),
+    path('pengaturan/', views.pengaturan, name='pengaturanChef'),
     path('logout/', views.logoutChef, name='logoutChef'),
 ]

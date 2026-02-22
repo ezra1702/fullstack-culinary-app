@@ -2,545 +2,312 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistik & Analytics - Chef Dashboard</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="{% static 'css/chef/statistik.css' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statistik & Analytics — Chef Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chef/statistik.css' %}">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar Chef -->
-        {% include 'snippets/chef/sidebar.html' %}
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Page Header -->
-            <div class="page-header">
-                <div class="header-content">
-                    <div class="header-title-section">
-                        <h1 class="page-title">
-                            <i class="fas fa-chart-line"></i>
-                            Statistik & Analytics
-                        </h1>
-                        <p class="page-subtitle">Dashboard lengkap performa dan pertumbuhan kelas Anda</p>
-                    </div>
-                    <div class="header-actions">
-                        <div class="date-range-picker">
-                            <select id="date-range" class="form-select">
-                                <option value="7">7 Hari Terakhir</option>
-                                <option value="30" selected>30 Hari Terakhir</option>
-                                <option value="90">90 Hari Terakhir</option>
-                                <option value="365">1 Tahun Terakhir</option>
-                                <option value="all">Semua Waktu</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" onclick="exportReport()">
-                            <i class="fas fa-download"></i>
-                            Export Report
-                        </button>
-                    </div>
-                </div>
-            </div>
+<!-- =============================================
+     SIDEBAR — LIGHT (sesuai referensi)
+============================================= -->
+{% include "snippets/chef/sidebar.html" %}
 
-            <!-- Quick Stats Overview -->
-            <div class="quick-stats-grid">
-                <div class="stat-card-large primary">
-                    <div class="stat-card-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <div class="stat-trend">
-                            <span class="trend-badge up">
-                                <i class="fas fa-arrow-up"></i> 23.5%
-                            </span>
-                        </div>
-                    </div>
-                    <div class="stat-card-body">
-                        <h3 class="stat-label">Total Pendapatan</h3>
-                        <div class="stat-value" id="total-revenue">Rp 45.750.000</div>
-                        <p class="stat-description">
-                            <span class="highlight">+Rp 8.5jt</span> dari bulan lalu
-                        </p>
-                    </div>
-                    <div class="stat-card-footer">
-                        <div class="mini-chart">
-                            <canvas id="revenue-mini-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
+<!-- =============================================
+     MAIN CONTENT
+============================================= -->
+<main class="main">
 
-                <div class="stat-card-large success">
-                    <div class="stat-card-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-trend">
-                            <span class="trend-badge up">
-                                <i class="fas fa-arrow-up"></i> 18.2%
-                            </span>
-                        </div>
-                    </div>
-                    <div class="stat-card-body">
-                        <h3 class="stat-label">Total Murid Aktif</h3>
-                        <div class="stat-value" id="total-students">156</div>
-                        <p class="stat-description">
-                            <span class="highlight">+24 murid</span> bulan ini
-                        </p>
-                    </div>
-                    <div class="stat-card-footer">
-                        <div class="mini-chart">
-                            <canvas id="students-mini-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="ph-inner">
+      <div>
+        <div class="ph-title"><i class="fas fa-chart-line"></i> Statistik & Analytics</div>
+        <div class="ph-sub">Dashboard lengkap performa dan pertumbuhan kelas Anda</div>
+      </div>
+      <div class="ph-actions">
+        <select class="ph-select" id="date-range">
+          <option value="7">7 Hari Terakhir</option>
+          <option value="30" selected>30 Hari Terakhir</option>
+          <option value="90">90 Hari Terakhir</option>
+          <option value="365">1 Tahun Terakhir</option>
+        </select>
+        <button class="btn-export" onclick="exportReport()"><i class="fas fa-download"></i> Export</button>
+      </div>
+    </div>
+  </div>
 
-                <div class="stat-card-large warning">
-                    <div class="stat-card-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <div class="stat-trend">
-                            <span class="trend-badge up">
-                                <i class="fas fa-arrow-up"></i> 12.5%
-                            </span>
-                        </div>
-                    </div>
-                    <div class="stat-card-body">
-                        <h3 class="stat-label">Kelas Aktif</h3>
-                        <div class="stat-value" id="active-classes">8</div>
-                        <p class="stat-description">
-                            <span class="highlight">2 kelas baru</span> bulan ini
-                        </p>
-                    </div>
-                    <div class="stat-card-footer">
-                        <div class="mini-chart">
-                            <canvas id="classes-mini-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
+  <!-- Hero Stats -->
+  <div class="stats-hero">
+    <div class="hero-card c1">
+      <div class="hc-top">
+        <div class="hc-icon"><i class="fas fa-money-bill-wave"></i></div>
+        <span class="hc-badge up"><i class="fas fa-arrow-up"></i> 23.5%</span>
+      </div>
+      <div class="hc-label">Total Pendapatan</div>
+      <div class="hc-val">Rp 45.75jt</div>
+      <div class="hc-desc"><strong>+Rp 8.5jt</strong> dari bulan lalu</div>
+      <div class="hc-chart"><canvas id="mini1"></canvas></div>
+    </div>
+    <div class="hero-card c2">
+      <div class="hc-top">
+        <div class="hc-icon"><i class="fas fa-users"></i></div>
+        <span class="hc-badge up"><i class="fas fa-arrow-up"></i> 18.2%</span>
+      </div>
+      <div class="hc-label">Total Murid Aktif</div>
+      <div class="hc-val">156</div>
+      <div class="hc-desc"><strong>+24 murid</strong> bulan ini</div>
+      <div class="hc-chart"><canvas id="mini2"></canvas></div>
+    </div>
+    <div class="hero-card c3">
+      <div class="hc-top">
+        <div class="hc-icon"><i class="fas fa-book-open"></i></div>
+        <span class="hc-badge up"><i class="fas fa-arrow-up"></i> 12.5%</span>
+      </div>
+      <div class="hc-label">Kelas Aktif</div>
+      <div class="hc-val">8</div>
+      <div class="hc-desc"><strong>2 kelas baru</strong> bulan ini</div>
+      <div class="hc-chart"><canvas id="mini3"></canvas></div>
+    </div>
+    <div class="hero-card c4">
+      <div class="hc-top">
+        <div class="hc-icon"><i class="fas fa-graduation-cap"></i></div>
+        <span class="hc-badge up"><i class="fas fa-arrow-up"></i> 8.3%</span>
+      </div>
+      <div class="hc-label">Tingkat Completion</div>
+      <div class="hc-val">78.5%</div>
+      <div class="hc-desc"><strong>122 murid</strong> selesai kelas</div>
+      <div class="hc-chart"><canvas id="mini4"></canvas></div>
+    </div>
+  </div>
 
-                <div class="stat-card-large info">
-                    <div class="stat-card-header">
-                        <div class="stat-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="stat-trend">
-                            <span class="trend-badge up">
-                                <i class="fas fa-arrow-up"></i> 8.3%
-                            </span>
-                        </div>
-                    </div>
-                    <div class="stat-card-body">
-                        <h3 class="stat-label">Tingkat Completion</h3>
-                        <div class="stat-value" id="completion-rate">78.5%</div>
-                        <p class="stat-description">
-                            <span class="highlight">122 murid</span> selesai kelas
-                        </p>
-                    </div>
-                    <div class="stat-card-footer">
-                        <div class="mini-chart">
-                            <canvas id="completion-mini-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Analytics Grid -->
+  <div class="analytics-grid">
 
-            <!-- Main Analytics Grid -->
-            <div class="analytics-grid">
-                <!-- Revenue Analytics -->
-                <div class="analytics-card large">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-chart-area"></i>
-                            <h3>Analisis Pendapatan</h3>
-                        </div>
-                        <div class="card-actions">
-                            <div class="chart-type-toggle">
-                                <button class="toggle-btn active" data-chart="revenue" data-type="line">
-                                    <i class="fas fa-chart-line"></i>
-                                </button>
-                                <button class="toggle-btn" data-chart="revenue" data-type="bar">
-                                    <i class="fas fa-chart-bar"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="revenue-chart"></canvas>
-                        </div>
-                        <div class="chart-legend">
-                            <div class="legend-item">
-                                <span class="legend-color primary"></span>
-                                <span class="legend-label">Pendapatan Kotor</span>
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-color success"></span>
-                                <span class="legend-label">Pendapatan Bersih</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Student Growth -->
-                <div class="analytics-card medium">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-user-plus"></i>
-                            <h3>Pertumbuhan Murid</h3>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-icon" onclick="refreshStudentData()">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="student-growth-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Top Performing Classes -->
-                <div class="analytics-card medium">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-trophy"></i>
-                            <h3>Kelas Terpopuler</h3>
-                        </div>
-                        <div class="card-actions">
-                            <select class="form-select-sm" id="performance-metric">
-                                <option value="students">Jumlah Murid</option>
-                                <option value="revenue">Pendapatan</option>
-                                <option value="rating">Rating</option>
-                                <option value="completion">Completion Rate</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="ranking-list" id="top-classes">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Revenue by Category -->
-                <div class="analytics-card medium">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-chart-pie"></i>
-                            <h3>Pendapatan per Kategori</h3>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container chart-pie">
-                            <canvas id="category-revenue-chart"></canvas>
-                        </div>
-                        <div class="category-stats" id="category-breakdown">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Student Demographics -->
-                <div class="analytics-card medium">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-users-cog"></i>
-                            <h3>Demografi Murid</h3>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="demographics-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Engagement Metrics -->
-                <div class="analytics-card medium">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-heart-pulse"></i>
-                            <h3>Tingkat Engagement</h3>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="engagement-metrics">
-                            <div class="metric-item">
-                                <div class="metric-circle">
-                                    <svg class="progress-ring" width="120" height="120">
-                                        <circle class="progress-ring-circle bg" cx="60" cy="60" r="50"></circle>
-                                        <circle class="progress-ring-circle" cx="60" cy="60" r="50" id="active-ring"></circle>
-                                    </svg>
-                                    <div class="metric-value">
-                                        <span class="value" id="active-students">85%</span>
-                                        <span class="label">Aktif</span>
-                                    </div>
-                                </div>
-                                <p class="metric-description">Murid Aktif Mingguan</p>
-                            </div>
-                            
-                            <div class="metric-item">
-                                <div class="metric-circle">
-                                    <svg class="progress-ring" width="120" height="120">
-                                        <circle class="progress-ring-circle bg" cx="60" cy="60" r="50"></circle>
-                                        <circle class="progress-ring-circle" cx="60" cy="60" r="50" id="completion-ring"></circle>
-                                    </svg>
-                                    <div class="metric-value">
-                                        <span class="value" id="completion-students">78%</span>
-                                        <span class="label">Selesai</span>
-                                    </div>
-                                </div>
-                                <p class="metric-description">Completion Rate</p>
-                            </div>
-                            
-                            <div class="metric-item">
-                                <div class="metric-circle">
-                                    <svg class="progress-ring" width="120" height="120">
-                                        <circle class="progress-ring-circle bg" cx="60" cy="60" r="50"></circle>
-                                        <circle class="progress-ring-circle" cx="60" cy="60" r="50" id="satisfaction-ring"></circle>
-                                    </svg>
-                                    <div class="metric-value">
-                                        <span class="value" id="satisfaction-rate">92%</span>
-                                        <span class="label">Puas</span>
-                                    </div>
-                                </div>
-                                <p class="metric-description">Kepuasan Murid</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Reviews -->
-                <div class="analytics-card large">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-star"></i>
-                            <h3>Review & Rating Terbaru</h3>
-                        </div>
-                        <div class="card-actions">
-                            <div class="rating-summary">
-                                <div class="avg-rating">4.7</div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                                <div class="total-reviews">dari 248 review</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="reviews-distribution">
-                            <div class="rating-bar">
-                                <span class="rating-label">5 <i class="fas fa-star"></i></span>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 75%"></div>
-                                </div>
-                                <span class="rating-count">186</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span class="rating-label">4 <i class="fas fa-star"></i></span>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 15%"></div>
-                                </div>
-                                <span class="rating-count">37</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span class="rating-label">3 <i class="fas fa-star"></i></span>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 6%"></div>
-                                </div>
-                                <span class="rating-count">15</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span class="rating-label">2 <i class="fas fa-star"></i></span>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 3%"></div>
-                                </div>
-                                <span class="rating-count">7</span>
-                            </div>
-                            <div class="rating-bar">
-                                <span class="rating-label">1 <i class="fas fa-star"></i></span>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 1%"></div>
-                                </div>
-                                <span class="rating-count">3</span>
-                            </div>
-                        </div>
-                        
-                        <div class="recent-reviews-list" id="recent-reviews">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Performance Metrics Table -->
-                <div class="analytics-card full-width">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-table"></i>
-                            <h3>Detail Performa Kelas</h3>
-                        </div>
-                        <div class="card-actions">
-                            <div class="search-box">
-                                <i class="fas fa-search"></i>
-                                <input type="text" placeholder="Cari kelas..." id="class-search">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="performance-table" id="performance-table">
-                                <thead>
-                                    <tr>
-                                        <th>Kelas</th>
-                                        <th>Kategori</th>
-                                        <th>Murid</th>
-                                        <th>Pendapatan</th>
-                                        <th>Rating</th>
-                                        <th>Completion</th>
-                                        <th>Trend</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="performance-table-body">
-                                    <!-- Will be populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Financial Summary Section -->
-            <div class="financial-summary">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-wallet"></i>
-                        Ringkasan Keuangan
-                    </h2>
-                </div>
-                
-                <div class="financial-grid">
-                    <div class="financial-card">
-                        <div class="financial-header">
-                            <div class="icon-wrapper income">
-                                <i class="fas fa-arrow-trend-up"></i>
-                            </div>
-                            <h4>Pemasukan</h4>
-                        </div>
-                        <div class="financial-amount income">
-                            Rp 45.750.000
-                        </div>
-                        <div class="financial-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Kelas Basic:</span>
-                                <span class="detail-value">Rp 28.500.000</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Kelas Premium:</span>
-                                <span class="detail-value">Rp 17.250.000</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="financial-card">
-                        <div class="financial-header">
-                            <div class="icon-wrapper expense">
-                                <i class="fas fa-arrow-trend-down"></i>
-                            </div>
-                            <h4>Biaya Platform</h4>
-                        </div>
-                        <div class="financial-amount expense">
-                            Rp 4.575.000
-                        </div>
-                        <div class="financial-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Fee (10%):</span>
-                                <span class="detail-value">Rp 4.575.000</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Admin:</span>
-                                <span class="detail-value">Rp 0</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="financial-card highlight">
-                        <div class="financial-header">
-                            <div class="icon-wrapper net">
-                                <i class="fas fa-hand-holding-dollar"></i>
-                            </div>
-                            <h4>Pendapatan Bersih</h4>
-                        </div>
-                        <div class="financial-amount net">
-                            Rp 41.175.000
-                        </div>
-                        <div class="financial-progress">
-                            <div class="progress-info">
-                                <span>Target Bulanan: Rp 40.000.000</span>
-                                <span class="progress-percentage">102.9%</span>
-                            </div>
-                            <div class="progress-bar-financial">
-                                <div class="progress-fill-financial" style="width: 102.9%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="financial-card">
-                        <div class="financial-header">
-                            <div class="icon-wrapper pending">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <h4>Pending Payout</h4>
-                        </div>
-                        <div class="financial-amount pending">
-                            Rp 8.250.000
-                        </div>
-                        <div class="financial-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Estimasi Payout:</span>
-                                <span class="detail-value">10 Feb 2026</span>
-                            </div>
-                            <button class="btn btn-sm btn-primary" onclick="requestPayout()">
-                                <i class="fas fa-paper-plane"></i>
-                                Request Payout
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Insights & Recommendations -->
-            <div class="insights-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-lightbulb"></i>
-                        Insights & Rekomendasi
-                    </h2>
-                </div>
-
-                <div class="insights-grid" id="insights-container">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-        </main>
+    <!-- Revenue Chart -->
+    <div class="ag-card span8">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-chart-area"></i><h3>Analisis Pendapatan</h3></div>
+        <div class="ag-actions">
+          <div class="btn-toggle-group">
+            <button class="btn-toggle active" onclick="toggleChart(this,'line')"><i class="fas fa-chart-line"></i></button>
+            <button class="btn-toggle" onclick="toggleChart(this,'bar')"><i class="fas fa-chart-bar"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap h360"><canvas id="revenueChart"></canvas></div>
     </div>
 
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Statistics JavaScript -->
-    <script src="{% static 'js/chef/statistik.js' %}"></script>
+    <!-- Student Growth -->
+    <div class="ag-card span4">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-user-plus"></i><h3>Pertumbuhan Murid</h3></div>
+        <div class="ag-actions">
+          <button class="btn-icon-sm" onclick="refreshSpin(this)"><i class="fas fa-sync-alt"></i></button>
+        </div>
+      </div>
+      <div class="chart-wrap h360"><canvas id="studentChart"></canvas></div>
+    </div>
+
+    <!-- Top Classes -->
+    <div class="ag-card span6">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-trophy"></i><h3>Kelas Terpopuler</h3></div>
+        <div class="ag-actions">
+          <select class="sel-sm" onchange="updateRanking(this.value)">
+            <option value="students">Jumlah Murid</option>
+            <option value="revenue">Pendapatan</option>
+            <option value="rating">Rating</option>
+          </select>
+        </div>
+      </div>
+      <div class="ranking-list" id="ranking-list"></div>
+    </div>
+
+    <!-- Revenue by Category -->
+    <div class="ag-card span6">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-chart-pie"></i><h3>Pendapatan per Kategori</h3></div>
+      </div>
+      <div class="chart-wrap h220"><canvas id="pieChart"></canvas></div>
+      <div class="cat-list" id="cat-list"></div>
+    </div>
+
+    <!-- Demographics -->
+    <div class="ag-card span6">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-users-cog"></i><h3>Demografi Murid</h3></div>
+      </div>
+      <div class="chart-wrap h300"><canvas id="demoChart"></canvas></div>
+    </div>
+
+    <!-- Engagement -->
+    <div class="ag-card span6">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-heart-pulse"></i><h3>Tingkat Engagement</h3></div>
+      </div>
+      <div class="engagement-wrap">
+        <div class="eng-item">
+          <div class="ring-wrap">
+            <svg width="110" height="110" viewBox="0 0 110 110">
+              <circle class="ring-bg" cx="55" cy="55" r="45"/>
+              <circle class="ring-fill" cx="55" cy="55" r="45" stroke="#2e8b57"
+                stroke-dasharray="283" stroke-dashoffset="42"/>
+            </svg>
+            <div class="ring-center"><span class="ring-pct">85%</span><span class="ring-lbl">Aktif</span></div>
+          </div>
+          <div class="eng-desc">Murid Aktif Mingguan</div>
+        </div>
+        <div class="eng-item">
+          <div class="ring-wrap">
+            <svg width="110" height="110" viewBox="0 0 110 110">
+              <circle class="ring-bg" cx="55" cy="55" r="45"/>
+              <circle class="ring-fill" cx="55" cy="55" r="45" stroke="#059669"
+                stroke-dasharray="283" stroke-dashoffset="62"/>
+            </svg>
+            <div class="ring-center"><span class="ring-pct">78%</span><span class="ring-lbl">Selesai</span></div>
+          </div>
+          <div class="eng-desc">Completion Rate</div>
+        </div>
+        <div class="eng-item">
+          <div class="ring-wrap">
+            <svg width="110" height="110" viewBox="0 0 110 110">
+              <circle class="ring-bg" cx="55" cy="55" r="45"/>
+              <circle class="ring-fill" cx="55" cy="55" r="45" stroke="#0891b2"
+                stroke-dasharray="283" stroke-dashoffset="23"/>
+            </svg>
+            <div class="ring-center"><span class="ring-pct">92%</span><span class="ring-lbl">Puas</span></div>
+          </div>
+          <div class="eng-desc">Kepuasan Murid</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews — FIXED LAYOUT -->
+    <div class="ag-card span12">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-star"></i><h3>Review & Rating Terbaru</h3></div>
+      </div>
+      <div class="review-section-body">
+        <!-- Kiri: Summary + Bar Chart -->
+        <div class="rating-summary-box">
+          <div class="rs-hero">
+            <div class="rs-big">4.7</div>
+            <div class="rs-right">
+              <div class="rs-stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <div class="rs-total">dari 248 review</div>
+            </div>
+          </div>
+          <div class="rev-dist">
+            <div class="rev-bar">
+              <span class="rev-lbl">5 <i class="fas fa-star"></i></span>
+              <div class="rev-track"><div class="rev-fill" style="width:75%"></div></div>
+              <span class="rev-count">186</span>
+            </div>
+            <div class="rev-bar">
+              <span class="rev-lbl">4 <i class="fas fa-star"></i></span>
+              <div class="rev-track"><div class="rev-fill" style="width:15%"></div></div>
+              <span class="rev-count">37</span>
+            </div>
+            <div class="rev-bar">
+              <span class="rev-lbl">3 <i class="fas fa-star"></i></span>
+              <div class="rev-track"><div class="rev-fill" style="width:6%"></div></div>
+              <span class="rev-count">15</span>
+            </div>
+            <div class="rev-bar">
+              <span class="rev-lbl">2 <i class="fas fa-star"></i></span>
+              <div class="rev-track"><div class="rev-fill" style="width:3%"></div></div>
+              <span class="rev-count">7</span>
+            </div>
+            <div class="rev-bar">
+              <span class="rev-lbl">1 <i class="fas fa-star"></i></span>
+              <div class="rev-track"><div class="rev-fill" style="width:1%"></div></div>
+              <span class="rev-count">3</span>
+            </div>
+          </div>
+        </div>
+        <!-- Kanan: Daftar Review -->
+        <div class="reviews-list" id="reviews-list"></div>
+      </div>
+    </div>
+
+    <!-- Performance Table -->
+    <div class="ag-card span12">
+      <div class="ag-header">
+        <div class="ag-title"><i class="fas fa-table"></i><h3>Detail Performa Kelas</h3></div>
+        <div class="search-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Cari kelas..." oninput="filterTable(this.value)">
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Kelas</th><th>Kategori</th><th>Murid</th><th>Pendapatan</th>
+              <th>Rating</th><th>Completion</th><th>Trend</th><th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tbl-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- end analytics-grid -->
+
+  <!-- Financial -->
+  <div class="section-title-bar"><i class="fas fa-wallet"></i><h2>Ringkasan Keuangan</h2></div>
+  <div class="fin-grid">
+    <div class="fin-card">
+      <div class="fin-top"><div class="fin-icon fi-income"><i class="fas fa-arrow-trend-up"></i></div><h4>Pemasukan</h4></div>
+      <div class="fin-amount fa-income">Rp 45.750.000</div>
+      <div class="fin-detail">
+        <div class="fd-row"><span class="fd-label">Kelas Basic:</span><span class="fd-val">Rp 28.500.000</span></div>
+        <div class="fd-row"><span class="fd-label">Kelas Premium:</span><span class="fd-val">Rp 17.250.000</span></div>
+      </div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-top"><div class="fin-icon fi-expense"><i class="fas fa-arrow-trend-down"></i></div><h4>Biaya Platform</h4></div>
+      <div class="fin-amount fa-expense">Rp 4.575.000</div>
+      <div class="fin-detail">
+        <div class="fd-row"><span class="fd-label">Fee (10%):</span><span class="fd-val">Rp 4.575.000</span></div>
+        <div class="fd-row"><span class="fd-label">Admin:</span><span class="fd-val">Rp 0</span></div>
+      </div>
+    </div>
+    <div class="fin-card highlight">
+      <div class="fin-top"><div class="fin-icon fi-net"><i class="fas fa-hand-holding-dollar"></i></div><h4>Pendapatan Bersih</h4></div>
+      <div class="fin-amount fa-net">Rp 41.175.000</div>
+      <div class="prog-label">
+        <span style="font-size:.76rem;color:var(--text-muted)">Target: Rp 40jt</span>
+        <span class="prog-pct">102.9%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:100%"></div></div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-top"><div class="fin-icon fi-pend"><i class="fas fa-clock"></i></div><h4>Pending Payout</h4></div>
+      <div class="fin-amount fa-pend">Rp 8.250.000</div>
+      <div class="fin-detail">
+        <div class="fd-row"><span class="fd-label">Est. Payout:</span><span class="fd-val">10 Feb 2026</span></div>
+      </div>
+      <button class="btn-payout" onclick="requestPayout()"><i class="fas fa-paper-plane"></i> Request Payout</button>
+    </div>
+  </div>
+
+  <!-- Insights -->
+  <div class="section-title-bar"><i class="fas fa-lightbulb"></i><h2>Insights & Rekomendasi</h2></div>
+  <div class="insights-grid" id="insights-grid"></div>
+
+</main>
+
+<script src="{% static 'js/chef/statistik.js' %}"></script>
 </body>
 </html>
