@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'db_culinary',                # Samakan dengan Docker
         'USER': 'virtual_culinary',           # Samakan dengan Docker
         'PASSWORD': 'admin123',               # Samakan dengan Docker
-        'HOST': '127.0.0.1',                  # IP laptop kamu
+        'HOST': 'db',                  # IP laptop kamu
         'PORT': '3306',                       # Port yang diekspos Docker
     }
 }
