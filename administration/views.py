@@ -4,17 +4,16 @@ from django.shortcuts import redirect
 from . import models
 # Create your views here.
 def adminDashboard(request):
-    users = models.create_user.objects.all()
-    all_users = models.create_user.objects.all()
-    total_students = all_users.filter(role__in='murid').count()
-    total_chefs = all_users.filter(role__in='chef').count()
-    total_premium = all_users.filter(role__in='murid-premium').count()
+    users_queryset = models.create_user.objects.select_related('murid_profile', 'chef_profile').order_by('-dataJoin')
+    total_users = users_queryset.count()
+    total_students = users_queryset.filter(role='murid').count()    
+    total_chefs = users_queryset.filter(role='chef').count()
+    total_premium = users_queryset.filter(murid_profile__isnull=False).count()
     context = {
-        'users': users.order_by('-dataJoin'),
-        'total_users': all_users.count(),
+        'total_users': total_users,
         'total_students': total_students,
         'total_chefs': total_chefs,
-        'total_premium': total_premium
+        'total_premium': total_premium,
     }
     return render(request, 'administration/admin_dashboard.html', context)
 

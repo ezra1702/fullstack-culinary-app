@@ -1,15 +1,10 @@
-/* ============================================================
-   admin_dashboard.js
-   Virtual Culinary Experience – Admin Panel
-============================================================ */
-
 'use strict';
 
 /* ============================================================
    SIDEBAR HAMBURGER
 ============================================================ */
 const hamburgerBtn = document.getElementById('hamburgerBtn');
-const sidebar      = document.querySelector('.admin-sidebar');
+const sidebar      = document.getElementById('adminSidebar');
 
 hamburgerBtn?.addEventListener('click', () => {
   sidebar.classList.toggle('open');
@@ -24,7 +19,7 @@ document.addEventListener('click', (e) => {
 });
 
 /* ============================================================
-   GLOBAL SEARCH (live filter on table rows)
+   GLOBAL SEARCH
 ============================================================ */
 document.getElementById('globalSearch')?.addEventListener('input', function () {
   const q = this.value.toLowerCase().trim();
@@ -37,7 +32,6 @@ document.getElementById('globalSearch')?.addEventListener('input', function () {
 /* ============================================================
    MODAL HELPERS
 ============================================================ */
-/** @param {string} id */
 function openModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -45,7 +39,6 @@ function openModal(id) {
   document.body.style.overflow = 'hidden';
 }
 
-/** @param {string} id */
 function closeModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -53,14 +46,12 @@ function closeModal(id) {
   document.body.style.overflow = '';
 }
 
-// Close on overlay click
 document.addEventListener('click', (e) => {
   document.querySelectorAll('.modal-overlay.open').forEach(modal => {
     if (e.target === modal) closeModal(modal.id);
   });
 });
 
-// Close on Escape
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
@@ -68,12 +59,19 @@ document.addEventListener('keydown', (e) => {
 });
 
 /* ============================================================
-   DATA EXTRACTOR — read from row's data-* attributes
+   DATA EXTRACTOR
 ============================================================ */
 function getRowData(row) {
   function safe(str, fallback) {
-    try { return JSON.parse(str || ''); }
-    catch { return fallback; }
+    if (!str || str === 'None') return fallback;
+    try { 
+      // Membersihkan string jika Django mengirimkan format yang aneh
+      return JSON.parse(str.replace(/&quot;/g, '"')); 
+    }
+    catch (e) { 
+      console.error("JSON Parse Error:", e);
+      return fallback; 
+    }
   }
 
   const role    = (row.dataset.role || '').toLowerCase();
@@ -93,9 +91,9 @@ function getRowData(row) {
     joined     : row.dataset.join         || '',
     lastActivity: row.dataset.lastActivity || '-',
     totalOnline : parseInt(row.dataset.totalOnline || 0),
-    // For avatar initial
     initial    : (namaDepan[0] || '?').toUpperCase(),
-    avaStyle   : row.querySelector('.user-ava')?.style.background || 'var(--green)',
+    // Ambil style background dari elemen avatar asli di dalam row
+    avaStyle   : row.querySelector('.user-ava')?.style.background || 'var(--accent)',
   };
 
   if (role === 'murid') {
@@ -136,23 +134,22 @@ function formatOnline(secs) {
   return `${h}j ${m}m`;
 }
 
-/** Render tag chips into a container element */
 function renderTags(el, data, color) {
   if (!el) return;
   el.innerHTML = '';
-
   let items = [];
   if (Array.isArray(data)) {
     items = data;
   } else if (data && typeof data === 'object') {
-    // Skills: { "Baking": "85", "Pastry": "70" }
-    items = Object.entries(data).map(([k, v]) => `${k} (${v}%)`);
+    // Jika data berupa dict {skill: value}
+    items = Object.entries(data).map(([k, v]) => `${k} (${v})`);
   }
-
+  
   if (!items.length) {
     el.innerHTML = '<span class="vtag-empty">Belum ada data</span>';
     return;
   }
+  
   items.forEach(t => {
     const s = document.createElement('span');
     s.className = `vtag vtag-${color || 'green'}`;
@@ -170,15 +167,13 @@ function capitalize(s) {
 }
 
 /* ============================================================
-   ACTIVE ROW (shared state between view/edit/delete)
+   ACTIVE ROW
 ============================================================ */
 let _activeRow = null;
 
 /* ============================================================
    VIEW MODAL
 ============================================================ */
-
-// Tab switching inside view modal
 document.querySelectorAll('.vt-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const tab = btn.dataset.vtab;
@@ -193,16 +188,17 @@ function openViewModal(row) {
   _activeRow = row;
   const d = getRowData(row);
 
-  // Reset tabs
+  // Reset tab ke "Info Umum"
   document.querySelectorAll('.vt-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.vt-pane').forEach(p => p.classList.remove('active'));
   document.querySelector('.vt-btn[data-vtab="info"]')?.classList.add('active');
   document.getElementById('vt-pane-info')?.classList.add('active');
 
-  // ── Banner ──
   const ava = document.getElementById('viewBannerAva');
-  ava.textContent   = d.initial;
-  ava.style.background = d.avaStyle;
+  if (ava) {
+    ava.textContent      = d.initial;
+    ava.style.background = d.avaStyle;
+  }
 
   setText('viewBannerName', d.fullName || '—');
   setText('viewBannerEmail', d.email);
@@ -219,7 +215,6 @@ function openViewModal(row) {
     statusPill.className   = 'status-pill ' + (d.isOnline ? 'pill-online' : 'pill-offline');
   }
 
-  // ── Info Umum Tab ──
   setText('vi-email',   d.email        || '—');
   setText('vi-telp',    d.telp         || '—');
   setText('vi-role',    capitalize(d.role) || '—');
@@ -227,11 +222,9 @@ function openViewModal(row) {
   setText('vi-join',    d.joined       || '—');
   setText('vi-lastact', d.lastActivity || '—');
 
-  // ── Statistik Tab ──
   setText('vs-online',  formatOnline(d.totalOnline));
   setText('vs-lastact', d.lastActivity || '—');
 
-  // ── Profil Tab — hide all role sections ──
   hide('vp-murid'); hide('vp-chef'); hide('vp-admin');
 
   if (d.role === 'murid' && d.murid) {
@@ -252,11 +245,10 @@ function openViewModal(row) {
 
     renderTags(document.getElementById('vp-spesialisasi'), d.chef.spesialisasi, 'purple');
 
-    // Pendidikan
     const pendEl = document.getElementById('vp-pendidikan');
     if (pendEl) {
       pendEl.innerHTML = '';
-      if (d.chef.pendidikan.length) {
+      if (Array.isArray(d.chef.pendidikan) && d.chef.pendidikan.length) {
         d.chef.pendidikan.forEach(p => {
           const li = document.createElement('li');
           li.textContent = p;
@@ -267,11 +259,10 @@ function openViewModal(row) {
       }
     }
 
-    // Riwayat Kerja
     const rwEl = document.getElementById('vp-riwayat');
     if (rwEl) {
       rwEl.innerHTML = '';
-      if (d.chef.riwayatKerja.length) {
+      if (Array.isArray(d.chef.riwayatKerja) && d.chef.riwayatKerja.length) {
         d.chef.riwayatKerja.forEach(r => {
           const div = document.createElement('div');
           div.className = 'riwayat-item';
@@ -289,7 +280,6 @@ function openViewModal(row) {
       }
     }
 
-    // Sosmed
     const smEl = document.getElementById('vp-sosmed');
     if (smEl) {
       smEl.innerHTML = '';
@@ -325,7 +315,6 @@ function openViewModal(row) {
   openModal('viewUserModal');
 }
 
-/** Called from "Edit User Ini" in View modal */
 function switchViewToEdit() {
   closeModal('viewUserModal');
   setTimeout(() => {
@@ -340,13 +329,13 @@ function openEditModal(row) {
   _activeRow = row;
   const d = getRowData(row);
 
-  // Preview bar
   const prevAva = document.getElementById('editPreviewAva');
-  prevAva.textContent      = d.initial;
-  prevAva.style.background = d.avaStyle;
+  if (prevAva) {
+    prevAva.textContent      = d.initial;
+    prevAva.style.background = d.avaStyle;
+  }
   setText('editPreviewName', d.fullName);
 
-  // Basic fields
   val('e-namaDepan',   d.namaDepan);
   val('e-namaBelakang', d.namaBelakang);
   val('e-email',       d.email);
@@ -354,7 +343,6 @@ function openEditModal(row) {
   val('e-role',        d.role);
   val('e-status',      d.isOnline ? 'online' : 'offline');
 
-  // Murid fields
   if (d.murid) {
     val('e-poin', d.murid.poin || 0);
     const skillArr = Array.isArray(d.murid.skills)
@@ -365,7 +353,6 @@ function openEditModal(row) {
     val('e-poin', 0); val('e-skills', '');
   }
 
-  // Chef fields
   if (d.chef) {
     val('e-ktp',         d.chef.noKtp !== '-' ? d.chef.noKtp : '');
     val('e-pendapatan',  d.chef.pendapatan || 0);
@@ -411,36 +398,34 @@ function submitEditUser(e) {
   const row = _activeRow;
   if (!row) return;
 
-  // ── Update row DOM ──
-  // Name
+  // Update visual row
   const nameEl = row.querySelector('.user-name');
   if (nameEl) nameEl.textContent = [namaDepan, namaBelakang].filter(Boolean).join(' ');
   const subEl = row.querySelector('.user-sub');
   if (subEl && telp) subEl.textContent = telp;
 
-  // Email
   const emailCell = row.querySelector('.cell-email');
   if (emailCell) emailCell.textContent = email;
 
-  // Role badge
   const badge = row.querySelector('.role-tag');
-  if (badge) { badge.textContent = capitalize(role); badge.className = 'role-tag ' + getRoleClass(role); }
+  if (badge) { 
+    badge.textContent = capitalize(role); 
+    badge.className = 'role-tag ' + getRoleClass(role); 
+  }
 
-  // Status dot + text
   const dot  = row.querySelector('.status-dot');
   const stxt = row.querySelector('.status-cell span:last-child');
   const online = status === 'online';
   if (dot)  { dot.className = 'status-dot ' + (online ? 'dot-online' : 'dot-offline'); }
   if (stxt) { stxt.textContent = online ? 'Online' : 'Offline'; }
 
-  // ── Update data-* attrs ──
+  // Update dataset row
   row.dataset.namaDepan    = namaDepan;
   row.dataset.namaBelakang = namaBelakang;
   row.dataset.email        = email;
   row.dataset.telp         = telp || '-';
   row.dataset.role         = role;
   row.dataset.status       = online ? 'online' : 'offline';
-  row.setAttribute('data-role', role);
 
   if (role === 'murid') {
     row.dataset.poin   = gval('e-poin') || 0;
@@ -448,6 +433,7 @@ function submitEditUser(e) {
     const skillArr     = skillRaw.split(',').map(s => s.trim()).filter(Boolean);
     row.dataset.skills = JSON.stringify(skillArr);
   }
+  
   if (role === 'chef') {
     row.dataset.noKtp       = gval('e-ktp');
     row.dataset.pendapatan  = gval('e-pendapatan') || 0;
@@ -466,6 +452,7 @@ function submitEditUser(e) {
 
   closeModal('editUserModal');
   showToast(`Data ${namaDepan} berhasil diperbarui ✓`, 'success');
+  // Catatan: Disini kamu perlu AJAX untuk update ke database Django
 }
 
 /* ============================================================
@@ -478,15 +465,23 @@ function onAddRoleChange() {
 }
 
 function submitAddUser(e) {
-  e.preventDefault();
+  // Biarkan form submit secara normal ke Django jika tidak menggunakan AJAX
+  // e.preventDefault(); 
   const pw  = gval('add-password');
   const cpw = gval('add-confirm');
-  if (pw.length < 8) { showToast('Password minimal 8 karakter!', 'error'); return; }
-  if (pw !== cpw)    { showToast('Password tidak cocok!',         'error'); return; }
+  
+  if (pw.length < 8) { 
+    e.preventDefault();
+    showToast('Password minimal 8 karakter!', 'error'); 
+    return; 
+  }
+  if (pw !== cpw) { 
+    e.preventDefault();
+    showToast('Password tidak cocok!', 'error'); 
+    return; 
+  }
 
-  closeModal('addUserModal');
-  document.getElementById('addUserForm')?.reset();
-  showToast('User baru berhasil ditambahkan!', 'success');
+  // Jika sukses, modal akan tertutup setelah reload halaman dari Django
 }
 
 /* ============================================================
@@ -497,7 +492,10 @@ function openDeleteModal(row) {
   const d = getRowData(row);
 
   const avaEl = document.getElementById('deleteAva');
-  if (avaEl) { avaEl.textContent = d.initial; avaEl.style.background = d.avaStyle; }
+  if (avaEl) { 
+    avaEl.textContent = d.initial; 
+    avaEl.style.background = d.avaStyle; 
+  }
   setText('deleteName',  d.fullName);
   setText('deleteEmail', d.email);
 
@@ -520,46 +518,45 @@ function confirmDelete() {
   if (!row) return;
   const name = row.querySelector('.user-name')?.textContent || 'User';
 
+  // Animasi hapus row
   row.style.transition = 'all 0.4s ease';
   row.style.opacity    = '0';
   row.style.transform  = 'translateX(40px)';
-  setTimeout(() => { row.remove(); }, 400);
+  
+  setTimeout(() => { 
+    row.remove(); 
+    showToast(`${name} telah dihapus dari sistem.`, 'success');
+  }, 400);
 
   closeModal('deleteUserModal');
-  showToast(`${name} telah dihapus dari sistem.`, 'success');
+  // Catatan: Panggil API Django untuk hapus data permanen di sini
 }
 
 /* ============================================================
-   BIND ACTION BUTTONS (re-usable for dynamically added rows)
+   BIND ACTION BUTTONS
 ============================================================ */
 function bindRowButtons(scope) {
   const root = scope || document;
 
   root.querySelectorAll('.act-view').forEach(btn => {
-    const fresh = btn.cloneNode(true);
-    btn.parentNode.replaceChild(fresh, btn);
-    fresh.addEventListener('click', function (e) {
+    btn.onclick = (e) => {
       e.stopPropagation();
-      openViewModal(this.closest('tr'));
-    });
+      openViewModal(btn.closest('tr'));
+    };
   });
 
   root.querySelectorAll('.act-edit').forEach(btn => {
-    const fresh = btn.cloneNode(true);
-    btn.parentNode.replaceChild(fresh, btn);
-    fresh.addEventListener('click', function (e) {
+    btn.onclick = (e) => {
       e.stopPropagation();
-      openEditModal(this.closest('tr'));
-    });
+      openEditModal(btn.closest('tr'));
+    };
   });
 
   root.querySelectorAll('.act-delete').forEach(btn => {
-    const fresh = btn.cloneNode(true);
-    btn.parentNode.replaceChild(fresh, btn);
-    fresh.addEventListener('click', function (e) {
+    btn.onclick = (e) => {
       e.stopPropagation();
-      openDeleteModal(this.closest('tr'));
-    });
+      openDeleteModal(btn.closest('tr'));
+    };
   });
 }
 
@@ -593,11 +590,26 @@ document.querySelectorAll('.data-table th[data-sort]').forEach(th => {
     rows.sort((a, b) => {
       let av = '', bv = '';
       switch (col) {
-        case 'name'  : av = a.querySelector('.user-name')?.textContent.toLowerCase() || ''; bv = b.querySelector('.user-name')?.textContent.toLowerCase() || ''; break;
-        case 'email' : av = a.querySelector('.cell-email')?.textContent.toLowerCase() || ''; bv = b.querySelector('.cell-email')?.textContent.toLowerCase() || ''; break;
-        case 'role'  : av = a.dataset.role || ''; bv = b.dataset.role || ''; break;
-        case 'status': av = a.dataset.status || ''; bv = b.dataset.status || ''; break;
-        case 'joined': av = a.querySelector('.cell-date')?.textContent || ''; bv = b.querySelector('.cell-date')?.textContent || ''; break;
+        case 'name'  : 
+          av = a.querySelector('.user-name')?.textContent.toLowerCase() || ''; 
+          bv = b.querySelector('.user-name')?.textContent.toLowerCase() || ''; 
+          break;
+        case 'email' : 
+          av = a.querySelector('.cell-email')?.textContent.toLowerCase() || ''; 
+          bv = b.querySelector('.cell-email')?.textContent.toLowerCase() || ''; 
+          break;
+        case 'role'  : 
+          av = a.dataset.role || ''; 
+          bv = b.dataset.role || ''; 
+          break;
+        case 'status': 
+          av = a.dataset.status || ''; 
+          bv = b.dataset.status || ''; 
+          break;
+        case 'joined': 
+          av = a.querySelector('.cell-date')?.textContent || ''; 
+          bv = b.querySelector('.cell-date')?.textContent || ''; 
+          break;
       }
       if (av < bv) return isAsc ? -1 : 1;
       if (av > bv) return isAsc ?  1 : -1;
@@ -609,7 +621,7 @@ document.querySelectorAll('.data-table th[data-sort]').forEach(th => {
 });
 
 /* ============================================================
-   TOAST NOTIFICATIONS
+   TOAST
 ============================================================ */
 function showToast(message, type = 'success') {
   const container = document.getElementById('toast-container');
@@ -644,9 +656,10 @@ function val(id, v)        { const el = document.getElementById(id); if (el) el.
 function gval(id)          { return document.getElementById(id)?.value || ''; }
 
 /* ============================================================
-   ENTRY ANIMATIONS (stat cards stagger-in)
+   ENTRY ANIMATIONS & INIT
 ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  // Stat Card Animations
   document.querySelectorAll('.stat-card').forEach((card, i) => {
     card.style.opacity   = '0';
     card.style.transform = 'translateY(22px)';
@@ -657,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, i * 110 + 80);
   });
 
-  // Table rows stagger-in
+  // Table Row Animations
   document.querySelectorAll('#tableBody tr').forEach((row, i) => {
     row.style.opacity   = '0';
     row.style.transform = 'translateX(-16px)';
@@ -668,16 +681,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, i * 80 + 300);
   });
 
-  // Activity items stagger
-  document.querySelectorAll('.activity-item').forEach((item, i) => {
-    item.style.opacity   = '0';
-    item.style.transform = 'translateY(12px)';
-    setTimeout(() => {
-      item.style.transition = 'all 0.4s ease';
-      item.style.opacity    = '1';
-      item.style.transform  = 'translateY(0)';
-    }, i * 100 + 600);
-  });
-
   bindRowButtons();
+  
+  // Greeting dinamis
+  const greetingsEl = document.getElementById("greetings");
+  if (greetingsEl) {
+    const hr = new Date().getHours();
+    const greet = hr < 12 ? "Pagi" : hr < 17 ? "Siang" : hr < 20 ? "Sore" : "Malam";
+    greetingsEl.textContent = greet;
+  }
 });
+
