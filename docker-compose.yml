@@ -32,6 +32,7 @@ services:
       sh -c "
       sleep 10 &&
       python manage.py migrate &&
+      python manage.py createsuperuser --noinput || true &&
       python manage.py runserver 0.0.0.0:8000
       "
     volumes:
@@ -42,7 +43,8 @@ services:
       - db
     environment:
       DJANGO_SUPERUSER_USERNAME: admin
-      DJANGO_SUPERUSER_PASSWORD: admin123
+      DJANGO_SUPERUSER_PASSWORD: admin@123
+      DJANGO_SUPERUSER_EMAIL: lNk0B@example.com
 
 volumes:
   mysql_data:
